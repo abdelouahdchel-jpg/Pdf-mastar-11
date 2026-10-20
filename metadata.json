@@ -1,0 +1,6 @@
+{
+  "name": "PDF Master",
+  "description": "Comprehensive, privacy-first online PDF tools platform. Merge, split, compress, convert, edit, sign, OCR, and protect PDFs directly in your browser.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
