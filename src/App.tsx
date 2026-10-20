@@ -9,6 +9,7 @@ import { AdSenseBanner } from './components/AdSenseBanner';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { ADSENSE_CONFIG } from './services/adsenseService';
 import { TOOLS_LIST, CATEGORIES } from './data/toolsList';
+import { TOOLS_SEO_DATA } from './data/toolsSeo';
 import { PDFTool, ToolCategory } from './types/tools';
 import { Shield, Zap, Lock, Smartphone, CheckCircle, ArrowRight } from 'lucide-react';
 
@@ -18,22 +19,90 @@ export default function App() {
   const [activeToolId, setActiveToolId] = useState<string | null>(null);
   const [activeModal, setActiveModal] = useState<'about' | 'privacy' | 'terms' | 'contact' | null>(null);
 
-  // Sync with URL hash
+  // Synchronize both clean path routing (/merge-pdf) and hash routing (#merge-pdf)
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
+    const resolveCurrentRoute = () => {
+      // 1. Check pathname (e.g. /merge-pdf)
+      const pathname = window.location.pathname.replace(/^\/+/, '').replace(/\/+$/, '');
+      if (pathname && TOOLS_LIST.some((t) => t.id === pathname)) {
+        setActiveToolId(pathname);
+        return;
+      }
+
+      // 2. Fallback to hash (e.g. #merge-pdf) for backward compatibility
+      const hash = window.location.hash.replace(/^#/, '');
       if (hash && TOOLS_LIST.some((t) => t.id === hash)) {
         setActiveToolId(hash);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        setActiveToolId(null);
+        return;
       }
+
+      // Default root
+      setActiveToolId(null);
     };
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    resolveCurrentRoute();
+    window.addEventListener('popstate', resolveCurrentRoute);
+    window.addEventListener('hashchange', resolveCurrentRoute);
+    return () => {
+      window.removeEventListener('popstate', resolveCurrentRoute);
+      window.removeEventListener('hashchange', resolveCurrentRoute);
+    };
   }, []);
+
+  // Synchronize document title, meta description, OpenGraph, and canonical link
+  useEffect(() => {
+    const defaultTitle = 'PDF Master – Merge, Split, Compress & Convert PDF Files';
+    const defaultDesc =
+      'Merge, split, compress, convert, edit, and sign PDF files directly in your browser with PDF Master. 100% private client-side processing with no file uploads.';
+    const baseUrl = 'https://pdf-mastar-11.netlify.app';
+
+    if (activeToolId && TOOLS_SEO_DATA[activeToolId]) {
+      const seo = TOOLS_SEO_DATA[activeToolId];
+      document.title = seo.title;
+
+      const descEl = document.querySelector('meta[name="description"]');
+      if (descEl) descEl.setAttribute('content', seo.description);
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', seo.title);
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', seo.description);
+
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.setAttribute('content', `${baseUrl}/${activeToolId}`);
+
+      let canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (!canonicalEl) {
+        canonicalEl = document.createElement('link');
+        canonicalEl.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalEl);
+      }
+      canonicalEl.setAttribute('href', `${baseUrl}/${activeToolId}`);
+    } else {
+      document.title = defaultTitle;
+
+      const descEl = document.querySelector('meta[name="description"]');
+      if (descEl) descEl.setAttribute('content', defaultDesc);
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', defaultTitle);
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', defaultDesc);
+
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.setAttribute('content', `${baseUrl}/`);
+
+      let canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (!canonicalEl) {
+        canonicalEl = document.createElement('link');
+        canonicalEl.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalEl);
+      }
+      canonicalEl.setAttribute('href', `${baseUrl}/`);
+    }
+  }, [activeToolId]);
 
   // Keyboard shortcut '/' to search
   useEffect(() => {
@@ -49,13 +118,13 @@ export default function App() {
   }, [activeToolId]);
 
   const selectTool = (toolId: string) => {
-    window.location.hash = toolId;
+    window.history.pushState({ toolId }, '', `/${toolId}`);
     setActiveToolId(toolId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const goHome = () => {
-    window.location.hash = '';
+    window.history.pushState({}, '', '/');
     setActiveToolId(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -99,7 +168,7 @@ export default function App() {
       <main className="flex-1">
         {activeTool ? (
           /* Active Tool Execution Workbench */
-          <ToolWorkbench tool={activeTool} onBack={goHome} />
+          <ToolWorkbench tool={activeTool} onBack={goHome} onSelectTool={selectTool} />
         ) : (
           /* Homepage Catalog View */
           <>

@@ -58,3 +58,13 @@ export interface PageThumbnail {
   rotation: number;
   selected?: boolean;
 }
+
+export interface ToolSeoData {
+  title: string;
+  description: string;
+  heading: string;
+  steps: { step: number; title: string; desc: string }[];
+  features: string[];
+  relatedToolIds: string[];
+}
+

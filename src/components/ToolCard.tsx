@@ -10,17 +10,16 @@ interface ToolCardProps {
 
 export const ToolCard: React.FC<ToolCardProps> = ({ tool, onClick }) => {
   return (
-    <div
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+    <a
+      href={`/${tool.id}`}
+      onClick={(e) => {
+        // Allow standard Cmd+click or Ctrl+click to open in new tab
+        if (!e.metaKey && !e.ctrlKey && !e.shiftKey) {
           e.preventDefault();
           onClick();
         }
       }}
-      className="group relative bg-white border border-slate-200/90 hover:border-red-400/80 rounded-2xl p-5 shadow-xs hover:shadow-lg hover:shadow-red-500/10 transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-500 text-left"
+      className="group relative bg-white border border-slate-200/90 hover:border-red-400/80 rounded-2xl p-5 shadow-xs hover:shadow-lg hover:shadow-red-500/10 transition-all duration-200 flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-500 text-left no-underline block"
     >
       <div>
         {/* Top row: Icon and Badge */}
@@ -65,6 +64,6 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool, onClick }) => {
           <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform" />
         </div>
       </div>
-    </div>
+    </a>
   );
 };

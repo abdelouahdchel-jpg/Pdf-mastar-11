@@ -56,33 +56,55 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1 lg:gap-2">
-          <button
-            onClick={() => {
-              onSelectCategory('all');
-              onGoHome();
+          <a
+            href="/"
+            onClick={(e) => {
+              if (!e.metaKey && !e.ctrlKey) {
+                e.preventDefault();
+                onSelectCategory('all');
+                onGoHome();
+              }
             }}
             className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-red-600 hover:bg-red-50/60 rounded-lg transition-colors"
           >
             All Tools
-          </button>
-          <button
-            onClick={() => onSelectTool('merge-pdf')}
+          </a>
+          <a
+            href="/merge-pdf"
+            onClick={(e) => {
+              if (!e.metaKey && !e.ctrlKey) {
+                e.preventDefault();
+                onSelectTool('merge-pdf');
+              }
+            }}
             className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-red-600 hover:bg-red-50/60 rounded-lg transition-colors"
           >
             Merge PDF
-          </button>
-          <button
-            onClick={() => onSelectTool('split-pdf')}
+          </a>
+          <a
+            href="/split-pdf"
+            onClick={(e) => {
+              if (!e.metaKey && !e.ctrlKey) {
+                e.preventDefault();
+                onSelectTool('split-pdf');
+              }
+            }}
             className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-red-600 hover:bg-red-50/60 rounded-lg transition-colors"
           >
             Split PDF
-          </button>
-          <button
-            onClick={() => onSelectTool('compress-pdf')}
+          </a>
+          <a
+            href="/compress-pdf"
+            onClick={(e) => {
+              if (!e.metaKey && !e.ctrlKey) {
+                e.preventDefault();
+                onSelectTool('compress-pdf');
+              }
+            }}
             className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-red-600 hover:bg-red-50/60 rounded-lg transition-colors"
           >
             Compress
-          </button>
+          </a>
 
           {/* Convert dropdown */}
           <div className="relative">
@@ -101,74 +123,106 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <div className="px-3 py-1.5 text-xs font-bold text-slate-400 uppercase tracking-wider">
                   Convert From PDF
                 </div>
-                <button
-                  onClick={() => {
-                    onSelectTool('pdf-to-jpg');
-                    setDropdownOpen(false);
+                <a
+                  href="/pdf-to-jpg"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('pdf-to-jpg');
+                      setDropdownOpen(false);
+                    }
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
+                  className="block px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
                 >
                   PDF to JPG
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectTool('pdf-to-word');
-                    setDropdownOpen(false);
+                </a>
+                <a
+                  href="/pdf-to-word"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('pdf-to-word');
+                      setDropdownOpen(false);
+                    }
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
+                  className="block px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
                 >
                   PDF to Word
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectTool('pdf-to-excel');
-                    setDropdownOpen(false);
+                </a>
+                <a
+                  href="/pdf-to-excel"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('pdf-to-excel');
+                      setDropdownOpen(false);
+                    }
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
+                  className="block px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
                 >
                   PDF to Excel
-                </button>
+                </a>
                 <div className="my-1 border-t border-slate-100" />
                 <div className="px-3 py-1.5 text-xs font-bold text-slate-400 uppercase tracking-wider">
                   Convert To PDF
                 </div>
-                <button
-                  onClick={() => {
-                    onSelectTool('jpg-to-pdf');
-                    setDropdownOpen(false);
+                <a
+                  href="/jpg-to-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('jpg-to-pdf');
+                      setDropdownOpen(false);
+                    }
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
+                  className="block px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
                 >
                   JPG to PDF
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectTool('images-to-pdf');
-                    setDropdownOpen(false);
+                </a>
+                <a
+                  href="/images-to-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('images-to-pdf');
+                      setDropdownOpen(false);
+                    }
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
+                  className="block px-4 py-2 text-sm text-slate-700 hover:bg-red-50 hover:text-red-600"
                 >
                   Images to PDF
-                </button>
+                </a>
               </div>
             )}
           </div>
 
-          <button
-            onClick={() => onSelectTool('sign-pdf')}
+          <a
+            href="/sign-pdf"
+            onClick={(e) => {
+              if (!e.metaKey && !e.ctrlKey) {
+                e.preventDefault();
+                onSelectTool('sign-pdf');
+              }
+            }}
             className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-red-600 hover:bg-red-50/60 rounded-lg transition-colors"
           >
             Sign PDF
-          </button>
-          <button
-            onClick={() => onSelectTool('ocr-pdf')}
+          </a>
+          <a
+            href="/ocr-pdf"
+            onClick={(e) => {
+              if (!e.metaKey && !e.ctrlKey) {
+                e.preventDefault();
+                onSelectTool('ocr-pdf');
+              }
+            }}
             className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-red-600 hover:bg-red-50/60 rounded-lg transition-colors flex items-center gap-1.5"
           >
             <span>OCR</span>
             <span className="text-[10px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded-full">
               Engine
             </span>
-          </button>
+          </a>
         </nav>
 
         {/* Right side items: Privacy Badge & Actions */}

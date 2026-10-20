@@ -36,8 +36,8 @@ export const Hero: React.FC<HeroProps> = ({
 
         {/* Subtitle */}
         <p className="mt-4 sm:mt-5 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Free, private, and effortless online PDF tools to merge, split, compress, convert, edit,
-          sign, and OCR documents directly in your browser.
+          Merge, split, compress, convert, edit, sign, and OCR your PDF files with 100% private,
+          fast, in-browser processing. No file uploads to external servers.
         </p>
 
         {/* Search Bar */}

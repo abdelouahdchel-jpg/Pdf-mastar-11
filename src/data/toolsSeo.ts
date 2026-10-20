@@ -1,0 +1,663 @@
+import { ToolSeoData } from '../types/tools';
+
+export const TOOLS_SEO_DATA: Record<string, ToolSeoData> = {
+  // A. Organize PDF
+  'merge-pdf': {
+    title: 'Merge PDF Online – Combine PDF Files Free | PDF Master',
+    description: 'Combine multiple PDF files into a single unified document in your browser. Reorder pages easily with 100% private, client-side processing.',
+    heading: 'Combine multiple PDF documents into one ordered file in seconds.',
+    steps: [
+      { step: 1, title: 'Upload Files', desc: 'Select or drag & drop two or more PDF documents from your computer or phone.' },
+      { step: 2, title: 'Arrange Order', desc: 'Move files up or down to set the exact order you want them combined in.' },
+      { step: 3, title: 'Merge & Download', desc: 'Click "Merge PDF" to combine the files locally and download your single merged document.' },
+    ],
+    features: [
+      '100% client-side: files never leave your computer or phone',
+      'Drag-and-drop file reordering before merging',
+      'No file size restrictions or watermark overlays',
+      'Preserves original formatting, vector fonts, and images',
+    ],
+    relatedToolIds: ['split-pdf', 'organize-pdf', 'compress-pdf', 'reorder-pages'],
+  },
+  'split-pdf': {
+    title: 'Split PDF Online – Extract Pages & Split PDF Files | PDF Master',
+    description: 'Split PDF files by custom page ranges or extract all pages into separate documents. Free, fast, and 100% private in-browser processing.',
+    heading: 'Separate individual pages or custom ranges into standalone PDF documents.',
+    steps: [
+      { step: 1, title: 'Choose PDF', desc: 'Select or drop the PDF file you wish to split or extract pages from.' },
+      { step: 2, title: 'Choose Mode', desc: 'Select "Extract all pages" (ZIP bundle) or define specific ranges (e.g., 1-3, 5, 8-10).' },
+      { step: 3, title: 'Download Split PDF', desc: 'Click "Split PDF" to generate and download your extracted files instantly.' },
+    ],
+    features: [
+      'Supports custom ranges (e.g. 1-4, 7, 9-12)',
+      'Extract every single page into a ZIP archive with one click',
+      'Local WebAssembly execution with zero server uploads',
+      'Works on Android phones, tablets, and desktop browsers',
+    ],
+    relatedToolIds: ['merge-pdf', 'extract-pages', 'remove-pages', 'organize-pdf'],
+  },
+  'extract-pages': {
+    title: 'Extract PDF Pages Online – Select & Export Pages | PDF Master',
+    description: 'Visually select and extract specific pages from your PDF file into a new document. 100% private, fast, and processed in your browser.',
+    heading: 'Pick individual pages visually and save them as a clean new PDF document.',
+    steps: [
+      { step: 1, title: 'Upload Document', desc: 'Select the PDF document containing pages you want to extract.' },
+      { step: 2, title: 'Select Pages', desc: 'Click on the page preview thumbnails you wish to keep in your new document.' },
+      { step: 3, title: 'Export', desc: 'Click "Extract Pages" to build and download your customized PDF.' },
+    ],
+    features: [
+      'Interactive visual thumbnail previews for every page',
+      'Select individual or multiple discontinuous pages',
+      'Zero server transmission: processed directly in browser memory',
+      'Maintains original page scale and resolution',
+    ],
+    relatedToolIds: ['remove-pages', 'split-pdf', 'organize-pdf', 'merge-pdf'],
+  },
+  'remove-pages': {
+    title: 'Delete PDF Pages Online – Remove Unwanted Pages | PDF Master',
+    description: 'Visually delete unwanted pages from your PDF document and download the cleaned version. Free, private, client-side processing.',
+    heading: 'Delete blank, duplicate, or unwanted pages permanently from your PDF file.',
+    steps: [
+      { step: 1, title: 'Select PDF', desc: 'Upload the PDF document you want to trim.' },
+      { step: 2, title: 'Click Pages to Remove', desc: 'Click on the page thumbnails you want to permanently delete.' },
+      { step: 3, title: 'Save Clean PDF', desc: 'Click "Remove Pages" to download the updated document with pages removed.' },
+    ],
+    features: [
+      'Visual page selector with instant deletion markers',
+      'Quickly clean up scanned contracts and documents',
+      'Safe local execution: original file remains unmodified',
+      'No watermarks and no registration required',
+    ],
+    relatedToolIds: ['extract-pages', 'organize-pdf', 'split-pdf', 'rotate-pages'],
+  },
+  'reorder-pages': {
+    title: 'Reorder PDF Pages – Rearrange Page Order Online | PDF Master',
+    description: 'Rearrange and change the order of pages in your PDF file with an intuitive visual grid. 100% private and processed locally.',
+    heading: 'Sort, shift, and reorder PDF pages visually to create the perfect sequence.',
+    steps: [
+      { step: 1, title: 'Upload PDF', desc: 'Choose the PDF file with pages you want to reorder.' },
+      { step: 2, title: 'Shift Pages', desc: 'Use the left/right arrows on page thumbnails to adjust page positions.' },
+      { step: 3, title: 'Download', desc: 'Click "Reorder Pages" to assemble and save your reorganized PDF.' },
+    ],
+    features: [
+      'Visual thumbnail grid showing all page contents',
+      'One-click shift controls to move pages anywhere in the document',
+      'Client-side PDF serialization without data loss',
+      'Mobile-responsive layout optimized for touch screens',
+    ],
+    relatedToolIds: ['organize-pdf', 'rotate-pages', 'merge-pdf', 'extract-pages'],
+  },
+  'rotate-pages': {
+    title: 'Rotate PDF Online – Rotate PDF Pages 90, 180 Degrees | PDF Master',
+    description: 'Rotate PDF pages permanently 90 degrees clockwise, counter-clockwise, or 180 degrees. Fast, free, and processed 100% in your browser.',
+    heading: 'Fix upside-down or sideways pages across your entire PDF document.',
+    steps: [
+      { step: 1, title: 'Open Document', desc: 'Select or drag your PDF into the upload area.' },
+      { step: 2, title: 'Select Rotation Angle', desc: 'Choose 90° clockwise, 180° flip, or 90° counter-clockwise, and select all or odd/even pages.' },
+      { step: 3, title: 'Save Rotated PDF', desc: 'Click "Rotate Pages" to download your permanently rotated PDF document.' },
+    ],
+    features: [
+      'Permanent page orientation fix across viewers and printers',
+      'Apply to all pages or selectively to odd/even pages',
+      'Zero server roundtrip: runs instantly on your device',
+      'Preserves annotations, searchable text, and links',
+    ],
+    relatedToolIds: ['organize-pdf', 'reorder-pages', 'remove-pages', 'compress-pdf'],
+  },
+  'organize-pdf': {
+    title: 'Organize PDF Pages Online – Rotate, Delete & Reorder | PDF Master',
+    description: 'Complete visual workbench to reorder, rotate, and delete PDF pages in one smooth workflow. 100% private in-browser document editor.',
+    heading: 'The all-in-one visual page organizer for restructuring any PDF file.',
+    steps: [
+      { step: 1, title: 'Load PDF File', desc: 'Upload the document you want to organize.' },
+      { step: 2, title: 'Edit Pages Visually', desc: 'Rotate sideways pages, delete unneeded ones, and shift pages into your desired sequence.' },
+      { step: 3, title: 'Download Organized PDF', desc: 'Click "Organize PDF" to compile your final document locally.' },
+    ],
+    features: [
+      'Combines rotation, deletion, and reordering in a single operation',
+      'Live visual rendering of every page thumbnail',
+      'Instant processing with zero wait queues or uploads',
+      'Free for both personal and professional use',
+    ],
+    relatedToolIds: ['reorder-pages', 'rotate-pages', 'extract-pages', 'merge-pdf'],
+  },
+  'add-page-numbers': {
+    title: 'Add Page Numbers to PDF Online | PDF Master',
+    description: 'Insert customizable page numbers into your PDF with custom positioning, font size, and format. Free, fast, and 100% private.',
+    heading: 'Number PDF pages professionally with custom placement and numbering formats.',
+    steps: [
+      { step: 1, title: 'Upload PDF', desc: 'Choose the document you want to number.' },
+      { step: 2, title: 'Choose Position & Style', desc: 'Select position (bottom center, top right, etc.) and format (e.g. Page 1 of N, 1/N, or 1).' },
+      { step: 3, title: 'Download Numbered PDF', desc: 'Click "Add Page Numbers" to apply the sequential numbers and download.' },
+    ],
+    features: [
+      'Custom positions: bottom-center, bottom-right, top-right, and more',
+      'Flexible formats: "Page X of Y", "X / Y", single digit, or "- X -"',
+      'Embedded standard Helvetica typography',
+      'Accurate mathematical margins preventing content collisions',
+    ],
+    relatedToolIds: ['add-watermark', 'add-text', 'organize-pdf', 'merge-pdf'],
+  },
+
+  // B. Compress and Optimize
+  'compress-pdf': {
+    title: 'Compress PDF Online – Reduce PDF File Size Free | PDF Master',
+    description: 'Compress PDF documents to reduce file size while maintaining readability and visual clarity. 100% private client-side optimization.',
+    heading: 'Shrink large PDF documents for email attachments and web publishing.',
+    steps: [
+      { step: 1, title: 'Select File', desc: 'Choose the PDF document you want to compress.' },
+      { step: 2, title: 'Pick Level', desc: 'Select Recommended (balanced), Extreme (smallest size), or Less Compression.' },
+      { step: 3, title: 'Download Compressed PDF', desc: 'Click "Compress PDF" to optimize internal streams and download.' },
+    ],
+    features: [
+      'Re-encodes PDF streams with cross-reference object stream compression',
+      'Removes redundant metadata and unreferenced internal objects',
+      'Compares original vs. new file size with percentage saved',
+      'Strict local processing: your private files are never uploaded',
+    ],
+    relatedToolIds: ['optimize-pdf', 'flatten-pdf', 'merge-pdf', 'pdf-to-jpg'],
+  },
+  'optimize-pdf': {
+    title: 'Optimize PDF Online – Streamline PDF Documents | PDF Master',
+    description: 'Streamline PDF structure and prepare documents for fast web viewing. Fast, private, in-browser optimization with no uploads.',
+    heading: 'Clean unused PDF objects, optimize font definitions, and streamline structure.',
+    steps: [
+      { step: 1, title: 'Upload PDF', desc: 'Select the PDF file you wish to optimize.' },
+      { step: 2, title: 'Review Settings', desc: 'Optimization applies structural stream compaction and metadata cleanup.' },
+      { step: 3, title: 'Download', desc: 'Click "Optimize PDF" to retrieve the refined document.' },
+    ],
+    features: [
+      'Prepares documents for fast web rendering',
+      'Cleans redundant cross-reference tables and orphans',
+      'Preserves original vector graphics, text, and form inputs',
+      '100% client-side execution on modern web standards',
+    ],
+    relatedToolIds: ['compress-pdf', 'flatten-pdf', 'repair-pdf', 'merge-pdf'],
+  },
+  'flatten-pdf': {
+    title: 'Flatten PDF Online – Lock Forms & Annotations | PDF Master',
+    description: 'Flatten interactive PDF form fields, checkboxes, and annotations permanently into the document background. 100% private in-browser tool.',
+    heading: 'Permanently bake form fields and visual annotations into the document background.',
+    steps: [
+      { step: 1, title: 'Choose Form Document', desc: 'Upload the fillable PDF or annotated document.' },
+      { step: 2, title: 'Flatten', desc: 'The flattening engine bakes widgets into static page graphics.' },
+      { step: 3, title: 'Save Flat PDF', desc: 'Download your read-only, tamper-resistant document.' },
+    ],
+    features: [
+      'Prevents subsequent unauthorized form editing or checkbox alteration',
+      'Ensures accurate printing across legacy PDF reader software',
+      'Safely locks signed contracts and filled applications',
+      'Executed locally without sending form data to remote servers',
+    ],
+    relatedToolIds: ['sign-pdf', 'compress-pdf', 'protect-pdf', 'add-text'],
+  },
+
+  // C. Convert PDF to Other Formats
+  'pdf-to-jpg': {
+    title: 'PDF to JPG Online – Convert PDF Pages to JPG Images | PDF Master',
+    description: 'Convert PDF pages into high-resolution JPG images packaged in a convenient ZIP archive. 100% private, free, and in-browser.',
+    heading: 'Transform each page of your PDF into crisp, shareable JPEG pictures.',
+    steps: [
+      { step: 1, title: 'Upload Document', desc: 'Select the PDF file you want to convert into images.' },
+      { step: 2, title: 'Set Resolution', desc: 'Select standard (72 DPI), medium (150 DPI), or ultra-crisp (300 DPI).' },
+      { step: 3, title: 'Download JPGs', desc: 'Click "PDF to JPG" to download individual images or a ZIP archive.' },
+    ],
+    features: [
+      'High-fidelity canvas rendering powered by Mozilla PDF.js',
+      'Quality and DPI scaling controls up to 300 DPI',
+      'Single-page direct download or multi-page ZIP packaging',
+      'Runs completely offline in your browser memory',
+    ],
+    relatedToolIds: ['pdf-to-png', 'jpg-to-pdf', 'extract-images', 'pdf-to-text'],
+  },
+  'pdf-to-png': {
+    title: 'PDF to PNG Online – Convert PDF to Lossless PNG Images | PDF Master',
+    description: 'Convert PDF pages into crisp, lossless PNG images with transparent or solid background. Free, fast, and 100% private.',
+    heading: 'Extract PDF pages into lossless PNG graphics with pixel-perfect clarity.',
+    steps: [
+      { step: 1, title: 'Select PDF', desc: 'Upload the document you want to render to PNG.' },
+      { step: 2, title: 'Choose DPI', desc: 'Select your preferred rendering scale (up to 300 DPI).' },
+      { step: 3, title: 'Download PNG', desc: 'Click "PDF to PNG" to retrieve your high-resolution images.' },
+    ],
+    features: [
+      'Lossless image reproduction ideal for diagrams, charts, and blueprints',
+      'Automatic ZIP archiving for multi-page documents',
+      'Runs locally via HTML5 canvas and Web Workers',
+      'Zero document upload or server transmission',
+    ],
+    relatedToolIds: ['pdf-to-jpg', 'png-to-pdf', 'extract-images', 'images-to-pdf'],
+  },
+  'pdf-to-text': {
+    title: 'PDF to Text Online – Extract Plain Text from PDF | PDF Master',
+    description: 'Extract all selectable text from digital PDF files into clean, editable text (.txt) with one click. Free, private in-browser extraction.',
+    heading: 'Extract text streams from PDF documents for editing, copying, or archiving.',
+    steps: [
+      { step: 1, title: 'Upload Searchable PDF', desc: 'Select the digital PDF containing selectable text.' },
+      { step: 2, title: 'Extract', desc: 'The parser reads all font characters and line structures.' },
+      { step: 3, title: 'Copy or Download', desc: 'Download a clean .txt file or copy directly to your clipboard.' },
+    ],
+    features: [
+      'Rapid client-side character stream extraction',
+      'Clear page-by-page text separators (e.g. --- Page 1 ---)',
+      'One-click copy to clipboard with instant confirmation',
+      'Preserves original paragraph line breaks',
+    ],
+    relatedToolIds: ['extract-text', 'ocr-pdf', 'pdf-to-word', 'txt-to-pdf'],
+  },
+  'pdf-to-html': {
+    title: 'PDF to HTML Online – Convert PDF to Web Pages | PDF Master',
+    description: 'Convert PDF pages into standalone, responsive HTML web pages preserving layout structure. 100% private client-side converter.',
+    heading: 'Turn PDF documents into responsive HTML web pages readable in any browser.',
+    steps: [
+      { step: 1, title: 'Select File', desc: 'Upload the PDF file you wish to convert to web format.' },
+      { step: 2, title: 'Generate HTML', desc: 'The converter maps text paragraphs and styling into semantic markup.' },
+      { step: 3, title: 'Download Web Page', desc: 'Download the standalone .html file ready for hosting or viewing.' },
+    ],
+    features: [
+      'Generates self-contained, clean HTML5 document markup',
+      'Built-in responsive styling that adapts to mobile and desktop screens',
+      'No external hosting dependencies: open directly in any browser',
+      'Zero privacy risk: converted inside your browser',
+    ],
+    relatedToolIds: ['html-to-pdf', 'pdf-to-text', 'pdf-to-word', 'pdf-to-powerpoint'],
+  },
+  'pdf-to-word': {
+    title: 'PDF to Word Online – Convert PDF to Editable Word (.doc) | PDF Master',
+    description: 'Convert PDF text and structure into an editable Word document format. 100% private, free in-browser conversion with no file uploads.',
+    heading: 'Export PDF documents into editable Word-compatible files.',
+    steps: [
+      { step: 1, title: 'Upload PDF Document', desc: 'Choose the PDF you need to convert into editable text.' },
+      { step: 2, title: 'Process', desc: 'The engine parses headers, paragraphs, and page breaks.' },
+      { step: 3, title: 'Download .doc File', desc: 'Open and edit the converted document directly in Microsoft Word or Google Docs.' },
+    ],
+    features: [
+      'Compatible with Microsoft Word, Google Docs, and LibreOffice',
+      'Preserves page breaks, section headers, and paragraph flow',
+      '100% private: no documents uploaded to external conversion clouds',
+      'Free forever with zero registration barriers',
+    ],
+    relatedToolIds: ['pdf-to-text', 'pdf-to-excel', 'txt-to-pdf', 'pdf-to-html'],
+  },
+  'pdf-to-excel': {
+    title: 'PDF to Excel Online – Extract Tabular Data to CSV | PDF Master',
+    description: 'Extract tables and structured text from PDF into Excel-ready CSV format. Fast, free, and 100% private client-side extraction.',
+    heading: 'Scan tabular text and export directly into CSV format for Excel spreadsheets.',
+    steps: [
+      { step: 1, title: 'Select Document', desc: 'Upload a PDF invoice, financial report, or table.' },
+      { step: 2, title: 'Scan Columns', desc: 'The parser analyzes whitespace and tab delimiters between columns.' },
+      { step: 3, title: 'Download CSV', desc: 'Open the resulting .csv spreadsheet in Microsoft Excel or Google Sheets.' },
+    ],
+    features: [
+      'Outputs RFC-compliant CSV format with UTF-8 encoding',
+      'Opens natively in Microsoft Excel, Google Sheets, and Apple Numbers',
+      'Extracts tabular rows and numerical columns quickly',
+      'Local execution keeps confidential financial data private',
+    ],
+    relatedToolIds: ['pdf-to-word', 'pdf-to-text', 'extract-text', 'compress-pdf'],
+  },
+  'pdf-to-powerpoint': {
+    title: 'PDF to PowerPoint Online – Convert PDF Pages to Slides | PDF Master',
+    description: 'Convert PDF document pages into presentation slide decks. 100% private in-browser conversion with slide structure formatting.',
+    heading: 'Transform document pages into structured presentation slides.',
+    steps: [
+      { step: 1, title: 'Upload Presentation PDF', desc: 'Select the PDF slide deck you want to convert.' },
+      { step: 2, title: 'Format Slides', desc: 'The converter organizes pages into 16:9 presentation slide containers.' },
+      { step: 3, title: 'Download', desc: 'Download the structured slide presentation file.' },
+    ],
+    features: [
+      'Formatted 16:9 modern presentation aspect ratio',
+      'Separates slide titles and body bullet points cleanly',
+      'Zero server upload: runs directly on your device',
+      'Great for lecture notes and business briefs',
+    ],
+    relatedToolIds: ['pdf-to-html', 'pdf-to-word', 'pdf-to-jpg', 'pdf-to-text'],
+  },
+
+  // D. Convert Files to PDF
+  'jpg-to-pdf': {
+    title: 'JPG to PDF Online – Convert JPG Images to PDF Free | PDF Master',
+    description: 'Convert JPG and JPEG photos into a clean, unified PDF document. Adjust margins, orientation, and page size with 100% private processing.',
+    heading: 'Turn photos and scanned JPEG images into a professional PDF document.',
+    steps: [
+      { step: 1, title: 'Select JPG Photos', desc: 'Choose one or multiple JPEG/JPG images from your device.' },
+      { step: 2, title: 'Set Page Size & Margins', desc: 'Select standard A4, US Letter, or fit to image, with portrait/landscape orientation.' },
+      { step: 3, title: 'Download PDF', desc: 'Click "JPG to PDF" to generate and download your customized document.' },
+    ],
+    features: [
+      'Supports batch conversion of multiple photos at once',
+      'Custom margin settings (none, small, or large)',
+      'Page size options: A4, US Letter, or exact image dimensions',
+      'Runs entirely on your device with no cloud uploads',
+    ],
+    relatedToolIds: ['png-to-pdf', 'images-to-pdf', 'pdf-to-jpg', 'compress-pdf'],
+  },
+  'png-to-pdf': {
+    title: 'PNG to PDF Online – Convert PNG Graphics to PDF | PDF Master',
+    description: 'Convert PNG graphics and transparent images into high-quality PDF files. Free, fast, and 100% private in-browser tool.',
+    heading: 'Convert PNG images with transparency and sharp graphics into PDF files.',
+    steps: [
+      { step: 1, title: 'Upload PNGs', desc: 'Select one or more PNG image files from your computer or phone.' },
+      { step: 2, title: 'Configure Page Layout', desc: 'Choose page orientation, margins, and paper size.' },
+      { step: 3, title: 'Convert & Save', desc: 'Click "PNG to PDF" to generate and download your clean PDF.' },
+    ],
+    features: [
+      'Preserves image transparency and crisp raster quality',
+      'Combine multiple PNGs into a multi-page PDF document',
+      'Safe local processing without transmitting files over the web',
+      'Fast WebAssembly encoding',
+    ],
+    relatedToolIds: ['jpg-to-pdf', 'images-to-pdf', 'pdf-to-png', 'compress-pdf'],
+  },
+  'images-to-pdf': {
+    title: 'Images to PDF Online – Convert Multi-Format Images to PDF | PDF Master',
+    description: 'Batch convert mixed images (JPG, PNG, WEBP, GIF, SVG) into a single multi-page PDF document. Free, private in-browser conversion.',
+    heading: 'Combine mixed photos, screenshots, and illustrations into one unified PDF.',
+    steps: [
+      { step: 1, title: 'Select Mixed Images', desc: 'Upload any combination of JPG, PNG, WEBP, GIF, or SVG images.' },
+      { step: 2, title: 'Arrange & Configure', desc: 'Reorder images and set page format (A4, Letter, or Fit).' },
+      { step: 3, title: 'Generate PDF', desc: 'Click "Images to PDF" to create and download your compilation document.' },
+    ],
+    features: [
+      'Supports all standard modern web image formats (JPG, PNG, WEBP, GIF, SVG)',
+      'Auto-resizes and centers images within selected page bounds',
+      'Reorder images before compiling',
+      '100% private: files never leave your device',
+    ],
+    relatedToolIds: ['jpg-to-pdf', 'png-to-pdf', 'merge-pdf', 'compress-pdf'],
+  },
+  'txt-to-pdf': {
+    title: 'TXT to PDF Online – Convert Text Files to PDF | PDF Master',
+    description: 'Convert plain text files (.txt) into cleanly formatted and paginated PDF documents with custom typography. 100% private and free.',
+    heading: 'Turn text files or pasted notes into paginated, formatted PDF documents.',
+    steps: [
+      { step: 1, title: 'Upload or Paste Text', desc: 'Select a .txt file or paste your text directly into the editor.' },
+      { step: 2, title: 'Configure Typography', desc: 'The engine automatically paginates and applies clean line wrapping.' },
+      { step: 3, title: 'Download PDF', desc: 'Download your formatted A4 PDF document.' },
+    ],
+    features: [
+      'Automatic word wrapping and multi-page pagination',
+      'Clean standard Helvetica and Courier typography support',
+      'Direct typing / pasting support without needing a file upload',
+      'Processed locally in browser memory',
+    ],
+    relatedToolIds: ['pdf-to-text', 'markdown-to-pdf', 'html-to-pdf', 'extract-text'],
+  },
+  'html-to-pdf': {
+    title: 'HTML to PDF Online – Convert HTML Code to PDF | PDF Master',
+    description: 'Convert HTML files or raw HTML code into formatted PDF documents. Fast, private in-browser conversion with live editor.',
+    heading: 'Render HTML web source code or files into printable PDF documents.',
+    steps: [
+      { step: 1, title: 'Input HTML', desc: 'Upload an .html file or enter your HTML code in the editor.' },
+      { step: 2, title: 'Format', desc: 'The parser reads headings, paragraphs, and lists into document layers.' },
+      { step: 3, title: 'Export PDF', desc: 'Click "Convert to PDF" and download your document.' },
+    ],
+    features: [
+      'Direct code editor for quick formatting adjustments',
+      'Preserves headers, lists, code blocks, and styling',
+      'Runs locally with zero external rendering API costs',
+      'Free with no registration or usage limits',
+    ],
+    relatedToolIds: ['pdf-to-html', 'markdown-to-pdf', 'txt-to-pdf', 'pdf-to-word'],
+  },
+  'markdown-to-pdf': {
+    title: 'Markdown to PDF Online – Convert MD Notes to PDF | PDF Master',
+    description: 'Convert Markdown notes (.md) into cleanly formatted PDF documents with headings, lists, and code blocks. 100% private.',
+    heading: 'Transform Markdown documentation, readmes, and notes into styled PDF files.',
+    steps: [
+      { step: 1, title: 'Provide Markdown', desc: 'Upload a .md file or write Markdown in the interactive editor.' },
+      { step: 2, title: 'Review Formatting', desc: 'Headings (#, ##), bullet points, and code blocks are automatically styled.' },
+      { step: 3, title: 'Save PDF', desc: 'Download your clean, paginated PDF document.' },
+    ],
+    features: [
+      'Parses Markdown syntax including headings, bold/italics, and lists',
+      'Built-in editor for instant document authoring',
+      'High-resolution vector typography',
+      '100% local browser execution',
+    ],
+    relatedToolIds: ['txt-to-pdf', 'html-to-pdf', 'pdf-to-text', 'add-text'],
+  },
+
+  // E. OCR and Text Extraction
+  'extract-text': {
+    title: 'Extract Text from PDF Online – Fast PDF Text Extractor | PDF Master',
+    description: 'Quickly extract all selectable text from digital PDF files. Copy to clipboard or download as text. 100% private in-browser extraction.',
+    heading: 'Instant text stream extraction from digital PDFs with zero server latency.',
+    steps: [
+      { step: 1, title: 'Select PDF', desc: 'Upload the searchable PDF you want to extract text from.' },
+      { step: 2, title: 'Extract Text', desc: 'The client-side parser reads all text layers instantly.' },
+      { step: 3, title: 'Copy or Save', desc: 'Review the text in the preview box, copy to clipboard, or download .txt.' },
+    ],
+    features: [
+      'Near-instant text extraction with Mozilla PDF.js',
+      'Preserves page numbers and reading order',
+      'One-click clipboard copy button with feedback',
+      'Strict local execution: completely private',
+    ],
+    relatedToolIds: ['ocr-pdf', 'pdf-to-text', 'pdf-to-word', 'txt-to-pdf'],
+  },
+  'ocr-pdf': {
+    title: 'OCR PDF Online – Recognize Text in Scanned Documents | PDF Master',
+    description: 'Perform client-side OCR on scanned PDFs and images to recognize text using Tesseract. Multi-language support with 100% private processing.',
+    heading: 'Convert scanned documents, photos, and receipts into editable text using OCR.',
+    steps: [
+      { step: 1, title: 'Upload Scanned Doc', desc: 'Select a scanned PDF or photo (JPG, PNG) containing printed text.' },
+      { step: 2, title: 'Select Language', desc: 'Choose the document language (English, Spanish, French, German, Italian, or Portuguese).' },
+      { step: 3, title: 'Extract OCR Text', desc: 'Watch real-time recognition progress and copy or download the extracted text.' },
+    ],
+    features: [
+      'Powered by Tesseract.js WebAssembly client-side engine',
+      'Supports English, Spanish, French, German, Italian, and Portuguese',
+      'Files are NEVER uploaded to any server or AI model',
+      'Live progress bar showing percentage of OCR completion',
+    ],
+    relatedToolIds: ['scanned-to-searchable', 'extract-text', 'pdf-to-text', 'pdf-to-word'],
+  },
+  'scanned-to-searchable': {
+    title: 'Scanned PDF to Searchable PDF Online | PDF Master',
+    description: 'Process image scans with OCR and generate searchable, copyable text transcript documents. 100% private client-side OCR tool.',
+    heading: 'Extract text transcripts from image scans to make documents searchable.',
+    steps: [
+      { step: 1, title: 'Upload Scan', desc: 'Choose the scanned PDF file or image.' },
+      { step: 2, title: 'Set Language', desc: 'Select the primary language of the text in the document.' },
+      { step: 3, title: 'Download Transcript', desc: 'Retrieve the recognized text formatted with page-by-page transcripts.' },
+    ],
+    features: [
+      'Page-by-page optical character recognition',
+      'Multi-language language dictionary support',
+      'Runs in browser memory using WebAssembly',
+      'Free forever with zero registration barriers',
+    ],
+    relatedToolIds: ['ocr-pdf', 'extract-text', 'pdf-to-text', 'pdf-to-jpg'],
+  },
+
+  // F. Edit, Sign and Annotate
+  'add-text': {
+    title: 'Add Text to PDF Online – Insert Custom Text into PDF | PDF Master',
+    description: 'Add custom text, labels, dates, or notes to any page of your PDF file with custom font size, color, and location. 100% private.',
+    heading: 'Type and stamp custom text, labels, and notes onto any PDF page.',
+    steps: [
+      { step: 1, title: 'Upload Document', desc: 'Select the PDF file you want to add text to.' },
+      { step: 2, title: 'Type & Position', desc: 'Enter your custom text, pick the font size, color, and target page number.' },
+      { step: 3, title: 'Save PDF', desc: 'Click "Add Text" to download your modified document.' },
+    ],
+    features: [
+      'Full RGB color picker and adjustable font sizes',
+      'Target any specific page number in multi-page files',
+      'Embeds text into the PDF vector layer permanently',
+      'Client-side execution with zero cloud uploads',
+    ],
+    relatedToolIds: ['sign-pdf', 'add-watermark', 'add-page-numbers', 'edit-metadata'],
+  },
+  'add-image': {
+    title: 'Add Image to PDF Online – Insert Logo or Stamp into PDF | PDF Master',
+    description: 'Stamp a logo, photo, or company seal onto any page of your PDF file with custom positioning and scaling. 100% private.',
+    heading: 'Place logos, stamps, and photos onto specific pages in your PDF.',
+    steps: [
+      { step: 1, title: 'Upload PDF', desc: 'Choose the document you want to add an image to.' },
+      { step: 2, title: 'Choose Image Stamp', desc: 'Upload the PNG or JPG image, set target page, and adjust position sliders.' },
+      { step: 3, title: 'Download Stamped PDF', desc: 'Save your updated document with the embedded image.' },
+    ],
+    features: [
+      'Supports transparent PNG logos, company seals, and JPG photos',
+      'Visual coordinate (X, Y) and scale sliders',
+      'Embeds image directly into the PDF object stream',
+      'Zero server upload: runs safely on your device',
+    ],
+    relatedToolIds: ['sign-pdf', 'add-watermark', 'add-text', 'flatten-pdf'],
+  },
+  'sign-pdf': {
+    title: 'Sign PDF Online – Free Electronic Signature Tool | PDF Master',
+    description: 'Sign PDF documents online with a digital signature. Draw your signature, type in cursive font, or upload an image. 100% private.',
+    heading: 'Create an e-signature and place it on any page of your contract or document.',
+    steps: [
+      { step: 1, title: 'Upload Document', desc: 'Select the contract or document you need to sign.' },
+      { step: 2, title: 'Create Signature', desc: 'Draw your signature on the pad, type your name in cursive script, or upload an image.' },
+      { step: 3, title: 'Stamp & Download', desc: 'Choose target page and position, then click "Sign PDF" to download.' },
+    ],
+    features: [
+      '3 flexible signature modes: Draw on canvas, Type cursive name, or Upload PNG',
+      'Touch-friendly drawing pad with smooth strokes on mobile and tablets',
+      'Adjustable placement coordinates and signature dimensions',
+      'Strictly private: contracts and signatures never touch an external server',
+    ],
+    relatedToolIds: ['flatten-pdf', 'add-text', 'add-image', 'protect-pdf'],
+  },
+  'add-watermark': {
+    title: 'Add Watermark to PDF Online – Stamp Text Watermarks | PDF Master',
+    description: 'Stamp custom text watermarks across all pages of your PDF document. Customize opacity, angle, and text. 100% private in-browser.',
+    heading: 'Protect confidential documents with semi-transparent text watermarks.',
+    steps: [
+      { step: 1, title: 'Upload File', desc: 'Choose the PDF you want to watermark.' },
+      { step: 2, title: 'Customize Watermark', desc: 'Enter text (e.g., CONFIDENTIAL, DRAFT), set angle (45°, 0°), and adjust opacity.' },
+      { step: 3, title: 'Download', desc: 'Click "Add Watermark" to stamp all pages and download.' },
+    ],
+    features: [
+      'Custom opacity slider to ensure underlying text remains readable',
+      'Diagonal (45°) or horizontal rotation angle settings',
+      'Applies across all pages in a single rapid pass',
+      'Runs locally in browser memory with zero uploads',
+    ],
+    relatedToolIds: ['add-page-numbers', 'add-text', 'protect-pdf', 'flatten-pdf'],
+  },
+  'edit-metadata': {
+    title: 'Edit PDF Metadata Online – Modify Title, Author & Keywords | PDF Master',
+    description: 'View and update PDF metadata fields including Title, Author, Subject, Keywords, and Creator. 100% private in-browser editor.',
+    heading: 'Inspect and edit document properties, authors, titles, and search keywords.',
+    steps: [
+      { step: 1, title: 'Upload PDF', desc: 'Select the PDF file whose metadata you want to review or edit.' },
+      { step: 2, title: 'Edit Properties', desc: 'Modify Title, Author, Subject, Keywords, and Producer fields.' },
+      { step: 3, title: 'Save Metadata', desc: 'Click "Edit PDF Metadata" to re-encode the updated properties.' },
+    ],
+    features: [
+      'Updates internal document information dictionary',
+      'Add comma-separated keywords for better internal indexing',
+      'Clean unneeded legacy metadata entries easily',
+      '100% client-side execution on your local device',
+    ],
+    relatedToolIds: ['compress-pdf', 'optimize-pdf', 'protect-pdf', 'repair-pdf'],
+  },
+  'annotate-pdf': {
+    title: 'Draw & Annotate PDF Online – Mark Up PDF Documents | PDF Master',
+    description: 'Annotate and mark up PDF pages with custom review stamps and notes. Free, fast, and 100% private in-browser tool.',
+    heading: 'Add review markings and visual annotations to PDF pages.',
+    steps: [
+      { step: 1, title: 'Select Document', desc: 'Upload the PDF document you wish to annotate.' },
+      { step: 2, title: 'Mark Up', desc: 'Apply review markings or annotations onto target pages.' },
+      { step: 3, title: 'Download', desc: 'Save your annotated document locally.' },
+    ],
+    features: [
+      'Embeds visual review stamps permanently into the page',
+      'Great for contract proofreading and grading',
+      'Zero document upload: stays entirely on your computer',
+      'No registration or watermark requirements',
+    ],
+    relatedToolIds: ['add-text', 'sign-pdf', 'flatten-pdf', 'add-watermark'],
+  },
+
+  // G. Protect and Advanced Tools
+  'protect-pdf': {
+    title: 'Protect PDF Online – Password Protect & Encrypt PDF | PDF Master',
+    description: 'Encrypt your PDF file with a secure password and restrict unauthorized access. 100% private client-side security tool.',
+    heading: 'Lock sensitive documents with password protection and security restrictions.',
+    steps: [
+      { step: 1, title: 'Select PDF Document', desc: 'Choose the file containing confidential information.' },
+      { step: 2, title: 'Set Password', desc: 'Enter a strong password to lock the document.' },
+      { step: 3, title: 'Download Protected PDF', desc: 'Click "Protect PDF" to encrypt the document and save.' },
+    ],
+    features: [
+      'Restricts unauthorized opening without the correct password',
+      'Standard 128-bit document encryption metadata',
+      'Processed locally: password and document never leave your device',
+      'Free forever with zero subscription fees',
+    ],
+    relatedToolIds: ['unlock-pdf', 'flatten-pdf', 'compress-pdf', 'sign-pdf'],
+  },
+  'unlock-pdf': {
+    title: 'Unlock PDF Online – Remove PDF Password Restrictions | PDF Master',
+    description: 'Remove password restrictions from an encrypted PDF when you possess the authorized password. 100% private in-browser tool.',
+    heading: 'Decrypt and remove password security from documents when authorized.',
+    steps: [
+      { step: 1, title: 'Upload Protected PDF', desc: 'Select the password-protected document.' },
+      { step: 2, title: 'Enter Password', desc: 'Type in the current valid document password.' },
+      { step: 3, title: 'Save Unlocked PDF', desc: 'Download a clean, unencrypted version with restrictions removed.' },
+    ],
+    features: [
+      'Removes password prompts for future document viewing and printing',
+      'Requires the valid document password (brute-force cracking is not supported)',
+      '100% local browser decryption with zero server exposure',
+      'Preserves original layout, images, and text content',
+    ],
+    relatedToolIds: ['protect-pdf', 'flatten-pdf', 'compress-pdf', 'repair-pdf'],
+  },
+  'compare-pdf': {
+    title: 'Compare PDF Documents Online – Side-by-Side Diff Tool | PDF Master',
+    description: 'Compare two PDF documents side by side to detect text differences, page count revisions, and word count changes. 100% private.',
+    heading: 'Compare two versions of a document to spot text revisions and differences.',
+    steps: [
+      { step: 1, title: 'Select Two PDFs', desc: 'Upload the original document and the revised version.' },
+      { step: 2, title: 'Run Comparison', desc: 'The parser extracts text from both files and calculates word count and content diffs.' },
+      { step: 3, title: 'Review Report', desc: 'Read the side-by-side summary report and download the text diff.' },
+    ],
+    features: [
+      'Calculates exact word count and page count differences',
+      'Verifies whether text content is 100% identical or revised',
+      'Zero server upload: comparison executes entirely in your browser',
+      'Exports comparison report as a downloadable summary',
+    ],
+    relatedToolIds: ['extract-text', 'pdf-to-text', 'merge-pdf', 'edit-metadata'],
+  },
+  'repair-pdf': {
+    title: 'Repair PDF Online – Fix Damaged or Corrupt PDF Files | PDF Master',
+    description: 'Recover and repair damaged PDF files by rebuilding corrupted xref tables and stream dictionaries. 100% private in-browser repair tool.',
+    heading: 'Rebuild damaged cross-reference tables and recover corrupted PDF streams.',
+    steps: [
+      { step: 1, title: 'Upload Damaged PDF', desc: 'Select the corrupted or unreadable PDF file.' },
+      { step: 2, title: 'Diagnostic Scan', desc: 'The repair engine scans objects, fixes broken headers, and reconstructs xref tables.' },
+      { step: 3, title: 'Download Repaired PDF', desc: 'Download the normalized, reconstructed document.' },
+    ],
+    features: [
+      'Reconstructs corrupted cross-reference (xref) indexing tables',
+      'Fixes broken EOF markers and malformed dictionary headers',
+      'Permissive parsing recovers salvageable page objects',
+      'Safe local execution: your private files are never uploaded',
+    ],
+    relatedToolIds: ['optimize-pdf', 'compress-pdf', 'flatten-pdf', 'unlock-pdf'],
+  },
+  'extract-images': {
+    title: 'Extract Images from PDF Online – Save Photos & Graphics | PDF Master',
+    description: 'Scan your PDF file, extract all embedded photos, diagrams, and illustrations, and download them in a ZIP archive. 100% private.',
+    heading: 'Extract all photos, diagrams, and raster graphics embedded inside your PDF.',
+    steps: [
+      { step: 1, title: 'Upload Document', desc: 'Select the PDF containing embedded images.' },
+      { step: 2, title: 'Extract Assets', desc: 'The engine scans page operator streams for embedded image objects.' },
+      { step: 3, title: 'Download ZIP', desc: 'Download all extracted PNG and JPEG images bundled in a clean ZIP.' },
+    ],
+    features: [
+      'Extracts embedded photos at their original raster resolution',
+      'Automatically packages multiple images into a single ZIP archive',
+      'No quality loss from screenshotting or screen cropping',
+      'Runs locally inside your browser with zero server transmission',
+    ],
+    relatedToolIds: ['pdf-to-jpg', 'pdf-to-png', 'images-to-pdf', 'compress-pdf'],
+  },
+};

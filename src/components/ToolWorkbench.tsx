@@ -56,12 +56,15 @@ import {
   convertPdfToPowerPoint,
 } from '../services/conversionService';
 
+import { ToolSeoSection } from './ToolSeoSection';
+
 interface ToolWorkbenchProps {
   tool: PDFTool;
   onBack: () => void;
+  onSelectTool: (toolId: string) => void;
 }
 
-export const ToolWorkbench: React.FC<ToolWorkbenchProps> = ({ tool, onBack }) => {
+export const ToolWorkbench: React.FC<ToolWorkbenchProps> = ({ tool, onBack, onSelectTool }) => {
   // Files state
   const [files, setFiles] = useState<File[]>([]);
   const [thumbnails, setThumbnails] = useState<PageThumbnail[]>([]);
@@ -1658,6 +1661,9 @@ export const ToolWorkbench: React.FC<ToolWorkbenchProps> = ({ tool, onBack }) =>
           )}
         </div>
       )}
+
+      {/* Helpful step-by-step instructions, key features, and related tool links for users & SEO */}
+      <ToolSeoSection tool={tool} onSelectTool={onSelectTool} />
 
       {/* Policy-compliant AdSense Placement, safely positioned away from tool controls */}
       <AdSenseBanner slotId={ADSENSE_CONFIG.slotToolBottom} className="mt-12" />

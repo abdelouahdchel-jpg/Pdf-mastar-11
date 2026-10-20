@@ -51,52 +51,88 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button
-                  onClick={() => onSelectTool('merge-pdf')}
+                <a
+                  href="/merge-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('merge-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Merge PDF
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('split-pdf')}
+                <a
+                  href="/split-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('split-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Split PDF
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('remove-pages')}
+                <a
+                  href="/remove-pages"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('remove-pages');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Remove Pages
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('rotate-pages')}
+                <a
+                  href="/rotate-pages"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('rotate-pages');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Rotate Pages
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('organize-pdf')}
+                <a
+                  href="/organize-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('organize-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Organize Pages
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('add-page-numbers')}
+                <a
+                  href="/add-page-numbers"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('add-page-numbers');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Add Page Numbers
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -108,52 +144,88 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button
-                  onClick={() => onSelectTool('pdf-to-jpg')}
+                <a
+                  href="/pdf-to-jpg"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('pdf-to-jpg');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   PDF to JPG
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('pdf-to-word')}
+                <a
+                  href="/pdf-to-word"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('pdf-to-word');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   PDF to Word
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('pdf-to-excel')}
+                <a
+                  href="/pdf-to-excel"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('pdf-to-excel');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   PDF to Excel
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('jpg-to-pdf')}
+                <a
+                  href="/jpg-to-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('jpg-to-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   JPG to PDF
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('images-to-pdf')}
+                <a
+                  href="/images-to-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('images-to-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Images to PDF
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('txt-to-pdf')}
+                <a
+                  href="/txt-to-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('txt-to-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Text to PDF
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -165,52 +237,88 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button
-                  onClick={() => onSelectTool('sign-pdf')}
+                <a
+                  href="/sign-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('sign-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Sign PDF
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('add-watermark')}
+                <a
+                  href="/add-watermark"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('add-watermark');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Add Watermark
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('compress-pdf')}
+                <a
+                  href="/compress-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('compress-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Compress PDF
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('protect-pdf')}
+                <a
+                  href="/protect-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('protect-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Protect PDF
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('unlock-pdf')}
+                <a
+                  href="/unlock-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('unlock-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Unlock PDF
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onSelectTool('ocr-pdf')}
+                <a
+                  href="/ocr-pdf"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      onSelectTool('ocr-pdf');
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   OCR Scanned PDF
-                </button>
+                </a>
               </li>
             </ul>
           </div>
