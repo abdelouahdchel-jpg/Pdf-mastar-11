@@ -4,4 +4,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://pdfmaster.app/sitemap.xml
+Sitemap: https://pdf-mastar-11.netlify.app/sitemap.xml
