@@ -4,7 +4,7 @@
  */
 
 export const ADSENSE_CONFIG = {
-  clientId: (import.meta.env.VITE_ADSENSE_CLIENT_ID || '').trim(),
+  clientId: (import.meta.env.VITE_ADSENSE_CLIENT_ID || 'ca-pub-1555504428910902').trim(),
   slotHomeTop: (import.meta.env.VITE_ADSENSE_SLOT_HOME_TOP || '').trim(),
   slotHomeMid: (import.meta.env.VITE_ADSENSE_SLOT_HOME_MID || '').trim(),
   slotToolBottom: (import.meta.env.VITE_ADSENSE_SLOT_TOOL_BOTTOM || '').trim(),
