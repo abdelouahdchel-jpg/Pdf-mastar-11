@@ -19,8 +19,12 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="bg-white border-t border-slate-200 mt-20 pt-16 pb-12 text-slate-600 text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Responsive AdSense placement near footer (renders only when configured) */}
-        <AdSenseBanner slotId={ADSENSE_CONFIG.slotFooter} className="mb-10" />
+        {/* Responsive AdSense placement near footer */}
+        <AdSenseBanner
+          slotId={ADSENSE_CONFIG.slotFooter}
+          slotLabel="فوق تذييل الصفحة (Footer Top)"
+          className="mb-10"
+        />
 
         {/* Links Grid */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">

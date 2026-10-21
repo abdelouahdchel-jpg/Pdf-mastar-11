@@ -201,8 +201,12 @@ export default function App() {
               onSelectCategory={setSelectedCategory}
             />
 
-            {/* Responsive AdSense Placement (Homepage Top - renders only when configured) */}
-            <AdSenseBanner slotId={ADSENSE_CONFIG.slotHomeTop} className="my-4" />
+            {/* Responsive AdSense Placement (Homepage Top) */}
+            <AdSenseBanner
+              slotId={ADSENSE_CONFIG.slotHomeTop}
+              slotLabel="أعلى الصفحة الرئيسية (Home Top)"
+              className="my-4"
+            />
 
             {/* Tools Grid Container */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16">
@@ -263,8 +267,12 @@ export default function App() {
                 </div>
               )}
 
-              {/* Responsive AdSense Placement (Homepage Mid - renders only when configured) */}
-              <AdSenseBanner slotId={ADSENSE_CONFIG.slotHomeMid} className="my-8" />
+              {/* Responsive AdSense Placement (Homepage Mid) */}
+              <AdSenseBanner
+                slotId={ADSENSE_CONFIG.slotHomeMid}
+                slotLabel="وسط الصفحة الرئيسية (Home Mid)"
+                className="my-8"
+              />
 
               {/* Why Choose PDF Master Trust Section */}
               <section className="mt-14 pt-16 border-t border-slate-200/80">

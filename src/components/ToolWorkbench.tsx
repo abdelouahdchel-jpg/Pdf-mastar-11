@@ -1666,7 +1666,11 @@ export const ToolWorkbench: React.FC<ToolWorkbenchProps> = ({ tool, onBack, onSe
       <ToolSeoSection tool={tool} onSelectTool={onSelectTool} />
 
       {/* Policy-compliant AdSense Placement, safely positioned away from tool controls */}
-      <AdSenseBanner slotId={ADSENSE_CONFIG.slotToolBottom} className="mt-12" />
+      <AdSenseBanner
+        slotId={ADSENSE_CONFIG.slotToolBottom}
+        slotLabel="أسفل صفحة الأداة (Tool Bottom)"
+        className="mt-12"
+      />
     </div>
   );
 };
