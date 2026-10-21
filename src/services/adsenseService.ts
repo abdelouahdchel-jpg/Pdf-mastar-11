@@ -79,5 +79,34 @@ export function setCookieConsentStatus(status: 'accepted' | 'declined'): void {
     } catch {
       // ignore
     }
+
+    try {
+      // @ts-expect-error Google Analytics gtag consent
+      if (typeof window.gtag === 'function') {
+        // @ts-expect-error Google Analytics gtag consent
+        window.gtag('consent', 'update', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+        });
+      }
+    } catch {
+      // ignore
+    }
+  } else if (status === 'accepted') {
+    try {
+      // @ts-expect-error Google Analytics gtag consent
+      if (typeof window.gtag === 'function') {
+        // @ts-expect-error Google Analytics gtag consent
+        window.gtag('consent', 'update', {
+          ad_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          analytics_storage: 'granted',
+        });
+      }
+    } catch {
+      // ignore
+    }
   }
 }

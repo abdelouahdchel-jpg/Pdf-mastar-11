@@ -102,6 +102,27 @@ export default function App() {
       }
       canonicalEl.setAttribute('href', `${baseUrl}/`);
     }
+
+    // Safely track page view for SPA navigation (no filenames or document contents are ever sent)
+    try {
+      // @ts-expect-error Google Analytics gtag
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        const pagePath = activeToolId ? `/${activeToolId}` : '/';
+        const pageTitle =
+          activeToolId && TOOLS_SEO_DATA[activeToolId]
+            ? TOOLS_SEO_DATA[activeToolId].title
+            : defaultTitle;
+
+        // @ts-expect-error Google Analytics gtag
+        window.gtag('event', 'page_view', {
+          page_path: pagePath,
+          page_title: pageTitle,
+          page_location: `${baseUrl}${pagePath}`,
+        });
+      }
+    } catch {
+      // ignore
+    }
   }, [activeToolId]);
 
   // Keyboard shortcut '/' to search
