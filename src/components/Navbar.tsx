@@ -229,7 +229,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="hidden sm:flex items-center gap-3">
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-semibold shadow-xs">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>100% Client-Side Privacy</span>
+            <span>In-Browser Processing</span>
           </div>
         </div>
 
@@ -248,7 +248,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 shadow-xl animate-in slide-in-from-top-2">
           <div className="flex items-center gap-2 mb-4 p-2 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-800 text-xs font-medium">
             <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>No uploads: All processing happens inside your phone's browser.</span>
+            <span>Fast, in-browser document processing without queue delays.</span>
           </div>
 
           <div className="grid grid-cols-2 gap-2 mb-4">

@@ -39,12 +39,12 @@ export const Footer: React.FC<FooterProps> = ({
               </span>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed">
-              Every PDF tool you need in one place. Engineered for speed, accessibility, and zero-compromise
-              local client-side privacy.
+              Every PDF tool you need in one place. Engineered for speed, accessibility, and in-browser
+              processing for essential document tasks.
             </p>
             <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200/60">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Zero server uploads</span>
+              <span>In-browser tool processing</span>
             </div>
           </div>
 

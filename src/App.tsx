@@ -278,13 +278,13 @@ export default function App() {
               <section className="mt-14 pt-16 border-t border-slate-200/80">
                 <div className="text-center max-w-2xl mx-auto mb-12">
                   <span className="text-xs font-bold text-red-600 uppercase tracking-wider">
-                    Privacy by Design
+                    Fast & Accessible
                   </span>
                   <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
-                    Why professionals choose PDF Master
+                    Why users choose PDF Master
                   </h2>
                   <p className="text-sm text-slate-500 mt-2">
-                    Engineered to deliver high-speed PDF operations without compromising your personal or business privacy.
+                    Engineered to deliver fast, accessible document tools directly in your browser without complicated setup.
                   </p>
                 </div>
 
@@ -293,10 +293,9 @@ export default function App() {
                     <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
                       <Shield className="w-6 h-6" />
                     </div>
-                    <h3 className="text-base font-bold text-slate-900">Zero Server Uploads</h3>
+                    <h3 className="text-base font-bold text-slate-900">In-Browser Processing</h3>
                     <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed">
-                      Your files never leave your browser memory. All conversions, compressions, and edits happen
-                      locally on your device.
+                      Core tools like merge, split, rotate, and watermark run directly in your browser, keeping document data on your device for these tasks.
                     </p>
                   </div>
 
@@ -304,10 +303,9 @@ export default function App() {
                     <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
                       <Zap className="w-6 h-6" />
                     </div>
-                    <h3 className="text-base font-bold text-slate-900">Blazing Fast Execution</h3>
+                    <h3 className="text-base font-bold text-slate-900">Fast & Streamlined</h3>
                     <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed">
-                      Powered by modern WebAssembly and native TypedArrays. No server queue waits or upload delays
-                      on slow internet connections.
+                      Designed with an intuitive interface to help you complete your document tasks quickly without queue delays or software downloads.
                     </p>
                   </div>
 
@@ -315,9 +313,9 @@ export default function App() {
                     <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mb-4">
                       <Smartphone className="w-6 h-6" />
                     </div>
-                    <h3 className="text-base font-bold text-slate-900">Android & Mobile Optimized</h3>
+                    <h3 className="text-base font-bold text-slate-900">Mobile & Desktop Ready</h3>
                     <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed">
-                      Touch-friendly controls, responsive canvas rendering, and low memory consumption for mobile browsers.
+                      Fully responsive layout optimized for smartphones, tablets, laptops, and desktop computers.
                     </p>
                   </div>
                 </div>
@@ -326,10 +324,10 @@ export default function App() {
                 <div className="mt-10 bg-gradient-to-r from-red-600 to-rose-700 rounded-3xl p-8 sm:p-10 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl shadow-red-500/20">
                   <div>
                     <h3 className="text-xl sm:text-2xl font-black">
-                      Ready to process your document?
+                      Ready to work with your documents?
                     </h3>
                     <p className="text-red-100 text-xs sm:text-sm mt-1 max-w-xl">
-                      Select any tool above to get started immediately. Free forever, no registration needed.
+                      Select any tool above to get started immediately. Free to use with no account registration needed.
                     </p>
                   </div>
                   <button

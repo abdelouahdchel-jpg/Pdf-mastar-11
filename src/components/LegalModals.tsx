@@ -37,28 +37,34 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
             <h2 className="text-2xl font-black text-slate-900">About PDF Master</h2>
             <div className="mt-4 text-sm text-slate-600 space-y-3 leading-relaxed">
               <p>
-                <strong>PDF Master</strong> is a high-performance, privacy-conscious suite of online
-                document utilities inspired by the simplicity and power of tools like iLovePDF.
+                <strong>PDF Master</strong> is an accessible, web-based suite of document utilities
+                designed to make everyday PDF tasks fast, straightforward, and dependable.
               </p>
               <p>
-                Unlike traditional document converter websites that transmit confidential records to
-                remote cloud servers, PDF Master was engineered from the ground up to execute all
-                manipulations directly inside your web browser using WebAssembly and modern web
-                standards.
+                Our platform provides practical tools to merge, split, compress, rotate, convert, and
+                organize PDF documents directly through a clean, modern interface without requiring
+                specialized software downloads.
               </p>
-              <h3 className="font-bold text-slate-800 text-base pt-2">Our Core Principles</h3>
+              <h3 className="font-bold text-slate-800 text-base pt-2">Browser-Based Processing</h3>
+              <p>
+                For core document manipulations—such as merging PDFs, splitting pages, rotating documents,
+                adding page numbers, and applying watermarks—the operations execute directly in your web
+                browser using client-side JavaScript. This ensures that your files for these specific tasks
+                are handled locally on your device rather than queued on remote processing servers.
+              </p>
+              <h3 className="font-bold text-slate-800 text-base pt-2">Our Commitments</h3>
               <ul className="list-disc pl-5 space-y-1.5">
                 <li>
-                  <strong>Absolute Privacy:</strong> Zero file uploads. Your tax returns, contracts,
-                  and sensitive reports remain strictly on your local device.
+                  <strong>Accessible Everywhere:</strong> Responsive, lightweight web utilities optimized
+                  for desktop browsers, laptops, tablets, and smartphones.
                 </li>
                 <li>
-                  <strong>No Registration or Paywalls:</strong> Unlimited access without mandatory
-                  accounts, email captures, or hidden fees.
+                  <strong>Straightforward Access:</strong> Use the tools you need without mandatory account
+                  creation or forced sign-up forms.
                 </li>
                 <li>
-                  <strong>Mobile-First Performance:</strong> Fully responsive interface optimized for
-                  phones, tablets, Chromebooks, and laptops.
+                  <strong>Clear &amp; Honest Operation:</strong> We clearly communicate how each tool processes
+                  documents, keeping client-side tasks on your local device.
                 </li>
               </ul>
             </div>
@@ -74,22 +80,21 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
             <h2 className="text-2xl font-black text-slate-900">Privacy & File Retention Policy</h2>
             <div className="mt-4 text-sm text-slate-600 space-y-3 leading-relaxed">
               <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-900 text-xs font-medium">
-                <strong>Zero File Upload Guarantee:</strong> When you use PDF Master, your files are
-                processed entirely within your browser's local sandbox memory using JavaScript and
-                WebAssembly. No file bytes or document contents are ever transmitted to our servers or
-                any third-party AI service.
+                <strong>Client-Side Document Handling:</strong> For core operations like merging, splitting,
+                reordering, and watermarking, your files are processed directly within your browser's local sandbox
+                using client-side JavaScript. Document contents for these operations remain on your device.
               </div>
-              <h3 className="font-bold text-slate-800 text-base pt-2">1. Local Processing</h3>
+              <h3 className="font-bold text-slate-800 text-base pt-2">1. Local In-Browser Processing</h3>
               <p>
-                All PDF merges, splits, compressions, image conversions, OCR scans, and signatures are
-                executed locally on your hardware. We do not operate remote document processing
-                queues, nor do we store document replicas.
+                Core tools—including PDF merging, page splitting, rotation, watermarking, and page numbering—run
+                locally on your machine. We do not store or inspect the contents of your documents during these
+                browser-based operations.
               </p>
-              <h3 className="font-bold text-slate-800 text-base pt-2">2. Data Retention</h3>
+              <h3 className="font-bold text-slate-800 text-base pt-2">2. Data Retention & Memory</h3>
               <p>
-                Because no documents are sent to our servers, our file retention duration is literally
-                zero seconds. As soon as you close or reload the browser tab, any cached document
-                memory is instantly released by your operating system.
+                For all client-side tools, files are loaded temporarily into your browser's active memory during the
+                session. As soon as you close or reload the browser tab, the temporary in-memory document data is
+                cleared by your browser.
               </p>
               <h3 className="font-bold text-slate-800 text-base pt-2">3. Cookies and Analytics</h3>
               <p>

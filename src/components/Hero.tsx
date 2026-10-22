@@ -23,7 +23,7 @@ export const Hero: React.FC<HeroProps> = ({
         {/* Privacy & Fast badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-100/70 border border-red-200 text-red-700 text-xs sm:text-sm font-semibold mb-6 shadow-xs animate-in fade-in">
           <ShieldCheck className="w-4 h-4 text-red-600" />
-          <span>100% Client-Side Processing • Your Files Never Leave Your Device</span>
+          <span>Fast, Browser-Based Tools • Client-Side Processing</span>
         </div>
 
         {/* Primary Heading */}
@@ -36,8 +36,8 @@ export const Hero: React.FC<HeroProps> = ({
 
         {/* Subtitle */}
         <p className="mt-4 sm:mt-5 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Merge, split, compress, convert, edit, sign, and OCR your PDF files with 100% private,
-          fast, in-browser processing. No file uploads to external servers.
+          Merge, split, compress, convert, rotate, and manage your PDF files quickly and easily.
+          Core document operations run directly in your browser for enhanced speed and privacy.
         </p>
 
         {/* Search Bar */}
