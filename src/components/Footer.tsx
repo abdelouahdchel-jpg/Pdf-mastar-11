@@ -9,12 +9,14 @@ interface FooterProps {
   onSelectCategory: (category: ToolCategory) => void;
   onSelectTool: (toolId: string) => void;
   onOpenModal: (modal: 'about' | 'privacy' | 'terms' | 'contact') => void;
+  onNavigateContact?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onSelectCategory,
   onSelectTool,
   onOpenModal,
+  onNavigateContact,
 }) => {
   return (
     <footer className="bg-white border-t border-slate-200 mt-20 pt-16 pb-12 text-slate-600 text-sm">
@@ -358,12 +360,22 @@ export const Footer: React.FC<FooterProps> = ({
                 </button>
               </li>
               <li>
-                <button
-                  onClick={() => onOpenModal('contact')}
+                <a
+                  href="/contact"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      if (onNavigateContact) {
+                        onNavigateContact();
+                      } else {
+                        onOpenModal('contact');
+                      }
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
-                  Contact Support
-                </button>
+                  Contact Us
+                </a>
               </li>
             </ul>
           </div>

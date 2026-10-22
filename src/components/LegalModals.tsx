@@ -4,9 +4,16 @@ import { X, ShieldCheck, Mail, FileText, CheckCircle2 } from 'lucide-react';
 interface LegalModalProps {
   type: 'about' | 'privacy' | 'terms' | 'contact' | null;
   onClose: () => void;
+  onNavigateContact?: () => void;
+  onOpenPrivacy?: () => void;
 }
 
-export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
+export const LegalModal: React.FC<LegalModalProps> = ({
+  type,
+  onClose,
+  onNavigateContact,
+  onOpenPrivacy,
+}) => {
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
@@ -186,83 +193,83 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
             <div className="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mb-4">
               <Mail className="w-6 h-6" />
             </div>
-            <h2 className="text-2xl font-black text-slate-900">Contact PDF Master</h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Have feedback, tool suggestions, or need technical support? Send us a note.
-            </p>
+            <h2 className="text-2xl font-black text-slate-900">Contact Us</h2>
+            <div className="mt-2 space-y-2">
+              <h3 className="text-base font-bold text-slate-800">We're Here to Help</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Thank you for using PDF Master. We value your feedback and are committed to making your
+                document management experience simple and convenient.
+              </p>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                If you have questions about our tools, encounter a technical issue, or would like to
+                suggest an improvement, please contact us.
+              </p>
+            </div>
 
-            {contactSubmitted ? (
-              <div className="mt-6 p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
-                <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-2" />
-                <h3 className="font-bold text-slate-900 text-base">Message Sent!</h3>
-                <p className="text-xs text-slate-600 mt-1">
-                  Thank you for reaching out. Our engineering team reviews all user inquiries.
-                </p>
+            {/* Official Support Email Card */}
+            <div className="mt-5 p-4 sm:p-5 bg-slate-900 text-white rounded-2xl space-y-2">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+                Official Support Email
+              </span>
+              <a
+                href="mailto:brayachmohamad@gmail.com"
+                className="text-base sm:text-lg font-mono font-bold text-white hover:text-red-400 transition-colors underline decoration-slate-700 underline-offset-4 inline-block break-all"
+              >
+                brayachmohamad@gmail.com
+              </a>
+              <p className="text-xs text-slate-400">
+                Clickable mailto link. Open directly in your preferred email client.
+              </p>
+            </div>
+
+            {/* Privacy Notice */}
+            <div className="mt-5 p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-600 leading-relaxed">
+              Please do not include passwords, payment details, confidential documents, or other
+              sensitive personal information in your message. Information submitted through this form
+              will be handled according to our{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  if (onOpenPrivacy) {
+                    onOpenPrivacy();
+                  }
+                }}
+                className="text-red-600 hover:text-red-700 underline font-semibold"
+              >
+                Privacy Policy
+              </button>
+              .
+            </div>
+
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-slate-100">
+              <a
+                href="mailto:brayachmohamad@gmail.com"
+                className="w-full sm:w-auto px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold text-center transition-colors"
+              >
+                Open in Email App
+              </a>
+              <div className="flex items-center gap-2 w-full sm:w-auto">
                 <button
+                  type="button"
                   onClick={onClose}
-                  className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold"
+                  className="w-full sm:w-auto px-4 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-50 transition-colors"
                 >
                   Close
                 </button>
-              </div>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setContactSubmitted(true);
-                }}
-                className="mt-6 space-y-4"
-              >
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 block mb-1">Your Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={contactName}
-                    onChange={(e) => setContactName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:border-red-500 outline-none"
-                    placeholder="Jane Smith"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 block mb-1">Email Address</label>
-                  <input
-                    type="email"
-                    required
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
-                    className="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:border-red-500 outline-none"
-                    placeholder="jane@example.com"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-semibold text-slate-700 block mb-1">Message</label>
-                  <textarea
-                    rows={4}
-                    required
-                    value={contactMessage}
-                    onChange={(e) => setContactMessage(e.target.value)}
-                    className="w-full p-3.5 border border-slate-300 rounded-xl text-sm focus:border-red-500 outline-none"
-                    placeholder="How can we help?"
-                  />
-                </div>
-                <div className="flex justify-end gap-3 pt-2">
+                {onNavigateContact && (
                   <button
                     type="button"
-                    onClick={onClose}
-                    className="px-4 py-2 border border-slate-200 text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-50"
+                    onClick={() => {
+                      onClose();
+                      onNavigateContact();
+                    }}
+                    className="w-full sm:w-auto px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold shadow-md shadow-red-500/20 transition-colors"
                   >
-                    Cancel
+                    Open Contact Form
                   </button>
-                  <button
-                    type="submit"
-                    className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold shadow-md shadow-red-500/20"
-                  >
-                    Send Message
-                  </button>
-                </div>
-              </form>
-            )}
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>

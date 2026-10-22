@@ -339,15 +339,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               Terms
             </button>
             <span>•</span>
-            <button
-              onClick={() => {
-                onOpenModal('contact');
-                setMobileMenuOpen(false);
+            <a
+              href="/contact"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  onOpenModal('contact');
+                  setMobileMenuOpen(false);
+                }
               }}
               className="hover:text-red-600"
             >
-              Contact
-            </button>
+              Contact Us
+            </a>
           </div>
         </div>
       )}

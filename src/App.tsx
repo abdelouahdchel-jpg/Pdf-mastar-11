@@ -7,6 +7,7 @@ import { Footer } from './components/Footer';
 import { LegalModal } from './components/LegalModals';
 import { AdSenseBanner } from './components/AdSenseBanner';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
+import { ContactPage } from './components/ContactPage';
 import { ADSENSE_CONFIG } from './services/adsenseService';
 import { TOOLS_LIST, CATEGORIES } from './data/toolsList';
 import { TOOLS_SEO_DATA } from './data/toolsSeo';
@@ -17,26 +18,40 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<ToolCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeToolId, setActiveToolId] = useState<string | null>(null);
+  const [isContactPage, setIsContactPage] = useState<boolean>(false);
   const [activeModal, setActiveModal] = useState<'about' | 'privacy' | 'terms' | 'contact' | null>(null);
 
-  // Synchronize both clean path routing (/merge-pdf) and hash routing (#merge-pdf)
+  // Synchronize clean path routing (/merge-pdf, /contact) and hash routing (#merge-pdf, #contact)
   useEffect(() => {
     const resolveCurrentRoute = () => {
-      // 1. Check pathname (e.g. /merge-pdf)
+      // 1. Check pathname (e.g. /merge-pdf or /contact)
       const pathname = window.location.pathname.replace(/^\/+/, '').replace(/\/+$/, '');
+      if (pathname === 'contact') {
+        setIsContactPage(true);
+        setActiveToolId(null);
+        return;
+      }
       if (pathname && TOOLS_LIST.some((t) => t.id === pathname)) {
+        setIsContactPage(false);
         setActiveToolId(pathname);
         return;
       }
 
-      // 2. Fallback to hash (e.g. #merge-pdf) for backward compatibility
+      // 2. Fallback to hash (e.g. #contact, #merge-pdf) for backward compatibility
       const hash = window.location.hash.replace(/^#/, '');
+      if (hash === 'contact') {
+        setIsContactPage(true);
+        setActiveToolId(null);
+        return;
+      }
       if (hash && TOOLS_LIST.some((t) => t.id === hash)) {
+        setIsContactPage(false);
         setActiveToolId(hash);
         return;
       }
 
       // Default root
+      setIsContactPage(false);
       setActiveToolId(null);
     };
 
@@ -56,7 +71,46 @@ export default function App() {
       'Merge, split, compress, convert, edit, and sign PDF files directly in your browser with PDF Master. 100% private client-side processing with no file uploads.';
     const baseUrl = 'https://pdf-mastar-11.netlify.app';
 
-    if (activeToolId && TOOLS_SEO_DATA[activeToolId]) {
+    if (isContactPage) {
+      const contactTitle = 'Contact Us – PDF Master';
+      const contactDesc =
+        "We're Here to Help. Contact the PDF Master support team for questions, technical issues, or tool feedback. Official support email: brayachmohamad@gmail.com.";
+      document.title = contactTitle;
+
+      const descEl = document.querySelector('meta[name="description"]');
+      if (descEl) descEl.setAttribute('content', contactDesc);
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', contactTitle);
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', contactDesc);
+
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.setAttribute('content', `${baseUrl}/contact`);
+
+      let canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (!canonicalEl) {
+        canonicalEl = document.createElement('link');
+        canonicalEl.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalEl);
+      }
+      canonicalEl.setAttribute('href', `${baseUrl}/contact`);
+
+      try {
+        // @ts-expect-error Google Analytics gtag
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          // @ts-expect-error Google Analytics gtag
+          window.gtag('event', 'page_view', {
+            page_path: '/contact',
+            page_title: contactTitle,
+            page_location: `${baseUrl}/contact`,
+          });
+        }
+      } catch {
+        // ignore
+      }
+    } else if (activeToolId && TOOLS_SEO_DATA[activeToolId]) {
       const seo = TOOLS_SEO_DATA[activeToolId];
       document.title = seo.title;
 
@@ -79,6 +133,20 @@ export default function App() {
         document.head.appendChild(canonicalEl);
       }
       canonicalEl.setAttribute('href', `${baseUrl}/${activeToolId}`);
+
+      try {
+        // @ts-expect-error Google Analytics gtag
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          // @ts-expect-error Google Analytics gtag
+          window.gtag('event', 'page_view', {
+            page_path: `/${activeToolId}`,
+            page_title: seo.title,
+            page_location: `${baseUrl}/${activeToolId}`,
+          });
+        }
+      } catch {
+        // ignore
+      }
     } else {
       document.title = defaultTitle;
 
@@ -101,34 +169,32 @@ export default function App() {
         document.head.appendChild(canonicalEl);
       }
       canonicalEl.setAttribute('href', `${baseUrl}/`);
-    }
 
-    // Safely track page view for SPA navigation (no filenames or document contents are ever sent)
-    try {
-      // @ts-expect-error Google Analytics gtag
-      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        const pagePath = activeToolId ? `/${activeToolId}` : '/';
-        const pageTitle =
-          activeToolId && TOOLS_SEO_DATA[activeToolId]
-            ? TOOLS_SEO_DATA[activeToolId].title
-            : defaultTitle;
-
+      try {
         // @ts-expect-error Google Analytics gtag
-        window.gtag('event', 'page_view', {
-          page_path: pagePath,
-          page_title: pageTitle,
-          page_location: `${baseUrl}${pagePath}`,
-        });
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          // @ts-expect-error Google Analytics gtag
+          window.gtag('event', 'page_view', {
+            page_path: '/',
+            page_title: defaultTitle,
+            page_location: `${baseUrl}/`,
+          });
+        }
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore
     }
-  }, [activeToolId]);
+  }, [activeToolId, isContactPage]);
 
   // Keyboard shortcut '/' to search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === '/' && !activeToolId && document.activeElement?.tagName !== 'INPUT') {
+      if (
+        e.key === '/' &&
+        !activeToolId &&
+        !isContactPage &&
+        document.activeElement?.tagName !== 'INPUT'
+      ) {
         e.preventDefault();
         const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
         searchInput?.focus();
@@ -136,16 +202,25 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeToolId]);
+  }, [activeToolId, isContactPage]);
 
   const selectTool = (toolId: string) => {
     window.history.pushState({ toolId }, '', `/${toolId}`);
+    setIsContactPage(false);
     setActiveToolId(toolId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToContact = () => {
+    window.history.pushState({ page: 'contact' }, '', '/contact');
+    setIsContactPage(true);
+    setActiveToolId(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const goHome = () => {
     window.history.pushState({}, '', '/');
+    setIsContactPage(false);
     setActiveToolId(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -178,16 +253,27 @@ export default function App() {
       <Navbar
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
-          if (activeToolId) goHome();
+          if (activeToolId || isContactPage) goHome();
         }}
         onSelectTool={selectTool}
         onGoHome={goHome}
-        onOpenModal={(modal) => setActiveModal(modal)}
+        onOpenModal={(modal) => {
+          if (modal === 'contact') {
+            navigateToContact();
+          } else {
+            setActiveModal(modal);
+          }
+        }}
       />
 
       {/* Main Content Area */}
       <main className="flex-1">
-        {activeTool ? (
+        {isContactPage ? (
+          <ContactPage
+            onBackToHome={goHome}
+            onOpenPrivacyPolicy={() => setActiveModal('privacy')}
+          />
+        ) : activeTool ? (
           /* Active Tool Execution Workbench */
           <ToolWorkbench tool={activeTool} onBack={goHome} onSelectTool={selectTool} />
         ) : (
@@ -347,14 +433,26 @@ export default function App() {
       <Footer
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
-          if (activeToolId) goHome();
+          if (activeToolId || isContactPage) goHome();
         }}
         onSelectTool={selectTool}
-        onOpenModal={(modal) => setActiveModal(modal)}
+        onOpenModal={(modal) => {
+          if (modal === 'contact') {
+            navigateToContact();
+          } else {
+            setActiveModal(modal);
+          }
+        }}
+        onNavigateContact={navigateToContact}
       />
 
       {/* Legal & Informational Modals */}
-      <LegalModal type={activeModal} onClose={() => setActiveModal(null)} />
+      <LegalModal
+        type={activeModal}
+        onClose={() => setActiveModal(null)}
+        onNavigateContact={navigateToContact}
+        onOpenPrivacy={() => setActiveModal('privacy')}
+      />
 
       {/* Cookie & Advertising Consent Banner for Google AdSense Compliance */}
       <CookieConsentBanner onOpenPrivacyPolicy={() => setActiveModal('privacy')} />
