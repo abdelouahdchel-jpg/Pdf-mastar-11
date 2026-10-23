@@ -7,6 +7,7 @@ interface NavbarProps {
   onSelectTool: (toolId: string) => void;
   onGoHome: () => void;
   onOpenModal: (modal: 'about' | 'privacy' | 'terms' | 'contact') => void;
+  onNavigatePage?: (page: 'about' | 'privacy' | 'terms' | 'contact') => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -14,6 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectTool,
   onGoHome,
   onOpenModal,
+  onNavigatePage,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -252,99 +254,151 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           <div className="grid grid-cols-2 gap-2 mb-4">
-            <button
-              onClick={() => {
-                onSelectTool('merge-pdf');
-                setMobileMenuOpen(false);
+            <a
+              href="/merge-pdf"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  onSelectTool('merge-pdf');
+                  setMobileMenuOpen(false);
+                }
               }}
-              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg"
+              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg block"
             >
               Merge PDF
-            </button>
-            <button
-              onClick={() => {
-                onSelectTool('split-pdf');
-                setMobileMenuOpen(false);
+            </a>
+            <a
+              href="/split-pdf"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  onSelectTool('split-pdf');
+                  setMobileMenuOpen(false);
+                }
               }}
-              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg"
+              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg block"
             >
               Split PDF
-            </button>
-            <button
-              onClick={() => {
-                onSelectTool('compress-pdf');
-                setMobileMenuOpen(false);
+            </a>
+            <a
+              href="/compress-pdf"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  onSelectTool('compress-pdf');
+                  setMobileMenuOpen(false);
+                }
               }}
-              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg"
+              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg block"
             >
               Compress PDF
-            </button>
-            <button
-              onClick={() => {
-                onSelectTool('pdf-to-jpg');
-                setMobileMenuOpen(false);
+            </a>
+            <a
+              href="/pdf-to-jpg"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  onSelectTool('pdf-to-jpg');
+                  setMobileMenuOpen(false);
+                }
               }}
-              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg"
+              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg block"
             >
               PDF to JPG
-            </button>
-            <button
-              onClick={() => {
-                onSelectTool('sign-pdf');
-                setMobileMenuOpen(false);
+            </a>
+            <a
+              href="/sign-pdf"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  onSelectTool('sign-pdf');
+                  setMobileMenuOpen(false);
+                }
               }}
-              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg"
+              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg block"
             >
               Sign PDF
-            </button>
-            <button
-              onClick={() => {
-                onSelectTool('ocr-pdf');
-                setMobileMenuOpen(false);
+            </a>
+            <a
+              href="/ocr-pdf"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  onSelectTool('ocr-pdf');
+                  setMobileMenuOpen(false);
+                }
               }}
-              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg"
+              className="p-2.5 text-left text-sm font-medium text-slate-700 bg-slate-50 hover:bg-red-50 hover:text-red-600 rounded-lg block"
             >
               OCR Scanned Doc
-            </button>
+            </a>
           </div>
 
           <div className="border-t border-slate-100 pt-3 flex flex-wrap gap-2 text-xs text-slate-500">
-            <button
-              onClick={() => {
-                onOpenModal('about');
-                setMobileMenuOpen(false);
+            <a
+              href="/about"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  if (onNavigatePage) {
+                    onNavigatePage('about');
+                  } else {
+                    onOpenModal('about');
+                  }
+                  setMobileMenuOpen(false);
+                }
               }}
               className="hover:text-red-600"
             >
               About PDF Master
-            </button>
+            </a>
             <span>•</span>
-            <button
-              onClick={() => {
-                onOpenModal('privacy');
-                setMobileMenuOpen(false);
+            <a
+              href="/privacy-policy"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  if (onNavigatePage) {
+                    onNavigatePage('privacy');
+                  } else {
+                    onOpenModal('privacy');
+                  }
+                  setMobileMenuOpen(false);
+                }
               }}
               className="hover:text-red-600"
             >
               Privacy Policy
-            </button>
+            </a>
             <span>•</span>
-            <button
-              onClick={() => {
-                onOpenModal('terms');
-                setMobileMenuOpen(false);
+            <a
+              href="/terms"
+              onClick={(e) => {
+                if (!e.metaKey && !e.ctrlKey) {
+                  e.preventDefault();
+                  if (onNavigatePage) {
+                    onNavigatePage('terms');
+                  } else {
+                    onOpenModal('terms');
+                  }
+                  setMobileMenuOpen(false);
+                }
               }}
               className="hover:text-red-600"
             >
               Terms
-            </button>
+            </a>
             <span>•</span>
             <a
               href="/contact"
               onClick={(e) => {
                 if (!e.metaKey && !e.ctrlKey) {
                   e.preventDefault();
-                  onOpenModal('contact');
+                  if (onNavigatePage) {
+                    onNavigatePage('contact');
+                  } else {
+                    onOpenModal('contact');
+                  }
                   setMobileMenuOpen(false);
                 }
               }}

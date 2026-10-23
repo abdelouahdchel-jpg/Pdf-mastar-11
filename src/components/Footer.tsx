@@ -10,6 +10,7 @@ interface FooterProps {
   onSelectTool: (toolId: string) => void;
   onOpenModal: (modal: 'about' | 'privacy' | 'terms' | 'contact') => void;
   onNavigateContact?: () => void;
+  onNavigatePage?: (page: 'about' | 'privacy' | 'terms' | 'contact') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
@@ -17,6 +18,7 @@ export const Footer: React.FC<FooterProps> = ({
   onSelectTool,
   onOpenModal,
   onNavigateContact,
+  onNavigatePage,
 }) => {
   return (
     <footer className="bg-white border-t border-slate-200 mt-20 pt-16 pb-12 text-slate-600 text-sm">
@@ -336,28 +338,58 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <button
-                  onClick={() => onOpenModal('about')}
+                <a
+                  href="/about"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      if (onNavigatePage) {
+                        onNavigatePage('about');
+                      } else {
+                        onOpenModal('about');
+                      }
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   About Us
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onOpenModal('privacy')}
+                <a
+                  href="/privacy-policy"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      if (onNavigatePage) {
+                        onNavigatePage('privacy');
+                      } else {
+                        onOpenModal('privacy');
+                      }
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Privacy Policy
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onOpenModal('terms')}
+                <a
+                  href="/terms"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      if (onNavigatePage) {
+                        onNavigatePage('terms');
+                      } else {
+                        onOpenModal('terms');
+                      }
+                    }
+                  }}
                   className="hover:text-red-600 transition-colors"
                 >
                   Terms of Service
-                </button>
+                </a>
               </li>
               <li>
                 <a
@@ -365,7 +397,9 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={(e) => {
                     if (!e.metaKey && !e.ctrlKey) {
                       e.preventDefault();
-                      if (onNavigateContact) {
+                      if (onNavigatePage) {
+                        onNavigatePage('contact');
+                      } else if (onNavigateContact) {
                         onNavigateContact();
                       } else {
                         onOpenModal('contact');

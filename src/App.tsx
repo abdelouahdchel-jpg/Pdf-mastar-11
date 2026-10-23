@@ -8,51 +8,89 @@ import { LegalModal } from './components/LegalModals';
 import { AdSenseBanner } from './components/AdSenseBanner';
 import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { ContactPage } from './components/ContactPage';
+import { AboutPage } from './components/AboutPage';
+import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
+import { TermsPage } from './components/TermsPage';
+import { NotFoundPage } from './components/NotFoundPage';
 import { ADSENSE_CONFIG } from './services/adsenseService';
 import { TOOLS_LIST, CATEGORIES } from './data/toolsList';
 import { TOOLS_SEO_DATA } from './data/toolsSeo';
-import { PDFTool, ToolCategory } from './types/tools';
-import { Shield, Zap, Lock, Smartphone, CheckCircle, ArrowRight } from 'lucide-react';
+import { ToolCategory } from './types/tools';
+import { Shield, Zap, Smartphone } from 'lucide-react';
+
+type PageState =
+  | { type: 'home' }
+  | { type: 'tool'; toolId: string }
+  | { type: 'contact' }
+  | { type: 'about' }
+  | { type: 'privacy' }
+  | { type: 'terms' }
+  | { type: 'not-found'; path: string };
+
+const BASE_URL = 'https://pdf-mastar-11.netlify.app';
 
 export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<ToolCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeToolId, setActiveToolId] = useState<string | null>(null);
-  const [isContactPage, setIsContactPage] = useState<boolean>(false);
+  const [pageState, setPageState] = useState<PageState>({ type: 'home' });
   const [activeModal, setActiveModal] = useState<'about' | 'privacy' | 'terms' | 'contact' | null>(null);
 
-  // Synchronize clean path routing (/merge-pdf, /contact) and hash routing (#merge-pdf, #contact)
+  // Synchronize clean path routing (/merge-pdf, /contact, /about, /privacy-policy, /terms) and hash fallback
   useEffect(() => {
     const resolveCurrentRoute = () => {
-      // 1. Check pathname (e.g. /merge-pdf or /contact)
       const pathname = window.location.pathname.replace(/^\/+/, '').replace(/\/+$/, '');
-      if (pathname === 'contact') {
-        setIsContactPage(true);
-        setActiveToolId(null);
-        return;
-      }
-      if (pathname && TOOLS_LIST.some((t) => t.id === pathname)) {
-        setIsContactPage(false);
-        setActiveToolId(pathname);
-        return;
-      }
-
-      // 2. Fallback to hash (e.g. #contact, #merge-pdf) for backward compatibility
       const hash = window.location.hash.replace(/^#/, '');
-      if (hash === 'contact') {
-        setIsContactPage(true);
-        setActiveToolId(null);
-        return;
-      }
-      if (hash && TOOLS_LIST.some((t) => t.id === hash)) {
-        setIsContactPage(false);
-        setActiveToolId(hash);
+
+      // 1. If root pathname
+      if (!pathname) {
+        if (hash === 'contact') {
+          setPageState({ type: 'contact' });
+          return;
+        }
+        if (hash === 'about' || hash === 'about-us') {
+          setPageState({ type: 'about' });
+          return;
+        }
+        if (hash === 'privacy' || hash === 'privacy-policy') {
+          setPageState({ type: 'privacy' });
+          return;
+        }
+        if (hash === 'terms' || hash === 'terms-of-service') {
+          setPageState({ type: 'terms' });
+          return;
+        }
+        if (hash && TOOLS_LIST.some((t) => t.id === hash)) {
+          setPageState({ type: 'tool', toolId: hash });
+          return;
+        }
+        setPageState({ type: 'home' });
         return;
       }
 
-      // Default root
-      setIsContactPage(false);
-      setActiveToolId(null);
+      // 2. Exact pathname routes
+      if (pathname === 'contact') {
+        setPageState({ type: 'contact' });
+        return;
+      }
+      if (pathname === 'about' || pathname === 'about-us') {
+        setPageState({ type: 'about' });
+        return;
+      }
+      if (pathname === 'privacy' || pathname === 'privacy-policy') {
+        setPageState({ type: 'privacy' });
+        return;
+      }
+      if (pathname === 'terms' || pathname === 'terms-of-service') {
+        setPageState({ type: 'terms' });
+        return;
+      }
+      if (TOOLS_LIST.some((t) => t.id === pathname)) {
+        setPageState({ type: 'tool', toolId: pathname });
+        return;
+      }
+
+      // 3. Fallback for unrecognized URLs -> genuine 404
+      setPageState({ type: 'not-found', path: pathname });
     };
 
     resolveCurrentRoute();
@@ -64,135 +102,177 @@ export default function App() {
     };
   }, []);
 
-  // Synchronize document title, meta description, OpenGraph, and canonical link
+  // Synchronize document title, meta description, OpenGraph, canonical link, and Schema.org structured data
   useEffect(() => {
-    const defaultTitle = 'PDF Master – Merge, Split, Compress & Convert PDF Files';
-    const defaultDesc =
-      'Merge, split, compress, convert, edit, and sign PDF files directly in your browser with PDF Master. 100% private client-side processing with no file uploads.';
-    const baseUrl = 'https://pdf-mastar-11.netlify.app';
+    let title = 'PDF Master – Merge, Split, Compress & Convert PDF Files';
+    let description =
+      'Merge, split, compress, convert, edit, and sign PDF files in your browser with PDF Master. Fast and accessible web tools with in-browser processing for core operations.';
+    let canonicalPath = '';
+    let is404 = false;
+    let schemaJson: Record<string, unknown> | null = null;
 
-    if (isContactPage) {
-      const contactTitle = 'Contact Us – PDF Master';
-      const contactDesc =
+    if (pageState.type === 'home') {
+      canonicalPath = '';
+      schemaJson = {
+        '@context': 'https://schema.org',
+        '@type': 'WebApplication',
+        name: 'PDF Master',
+        url: `${BASE_URL}/`,
+        description,
+        applicationCategory: 'ProductivityApplication',
+        operatingSystem: 'All',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      };
+    } else if (pageState.type === 'contact') {
+      title = 'Contact Us – PDF Master';
+      description =
         "We're Here to Help. Contact the PDF Master support team for questions, technical issues, or tool feedback. Official support email: brayachmohamad@gmail.com.";
-      document.title = contactTitle;
-
-      const descEl = document.querySelector('meta[name="description"]');
-      if (descEl) descEl.setAttribute('content', contactDesc);
-
-      const ogTitle = document.querySelector('meta[property="og:title"]');
-      if (ogTitle) ogTitle.setAttribute('content', contactTitle);
-
-      const ogDesc = document.querySelector('meta[property="og:description"]');
-      if (ogDesc) ogDesc.setAttribute('content', contactDesc);
-
-      const ogUrl = document.querySelector('meta[property="og:url"]');
-      if (ogUrl) ogUrl.setAttribute('content', `${baseUrl}/contact`);
-
-      let canonicalEl = document.querySelector('link[rel="canonical"]');
-      if (!canonicalEl) {
-        canonicalEl = document.createElement('link');
-        canonicalEl.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalEl);
+      canonicalPath = '/contact';
+      schemaJson = {
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        name: 'Contact Us – PDF Master',
+        url: `${BASE_URL}/contact`,
+        description,
+        mainEntity: {
+          '@type': 'Organization',
+          name: 'PDF Master',
+          url: `${BASE_URL}/`,
+          contactPoint: {
+            '@type': 'ContactPoint',
+            email: 'brayachmohamad@gmail.com',
+            contactType: 'customer support',
+          },
+        },
+      };
+    } else if (pageState.type === 'about') {
+      title = 'About Us – PDF Master | Fast, Accessible & Private PDF Tools';
+      description =
+        'Learn about PDF Master: fast, accessible online document utilities with 100% in-browser processing for core tasks. Zero queues, zero forced sign-ups.';
+      canonicalPath = '/about';
+      schemaJson = {
+        '@context': 'https://schema.org',
+        '@type': 'AboutPage',
+        name: 'About PDF Master',
+        url: `${BASE_URL}/about`,
+        description,
+      };
+    } else if (pageState.type === 'privacy') {
+      title = 'Privacy & File Retention Policy – PDF Master';
+      description =
+        'PDF Master privacy and file retention policy: local in-browser document processing, immediate memory clearing, Google AdSense cookies, and advertising opt-out options.';
+      canonicalPath = '/privacy-policy';
+    } else if (pageState.type === 'terms') {
+      title = 'Terms of Service – PDF Master';
+      description =
+        'Terms of service and permitted use for PDF Master browser-based document processing utilities.';
+      canonicalPath = '/terms';
+    } else if (pageState.type === 'tool') {
+      const seo = TOOLS_SEO_DATA[pageState.toolId];
+      const toolObj = TOOLS_LIST.find((t) => t.id === pageState.toolId);
+      if (seo) {
+        title = seo.title;
+        description = seo.description;
       }
-      canonicalEl.setAttribute('href', `${baseUrl}/contact`);
-
-      try {
-        // @ts-expect-error Google Analytics gtag
-        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-          // @ts-expect-error Google Analytics gtag
-          window.gtag('event', 'page_view', {
-            page_path: '/contact',
-            page_title: contactTitle,
-            page_location: `${baseUrl}/contact`,
-          });
-        }
-      } catch {
-        // ignore
-      }
-    } else if (activeToolId && TOOLS_SEO_DATA[activeToolId]) {
-      const seo = TOOLS_SEO_DATA[activeToolId];
-      document.title = seo.title;
-
-      const descEl = document.querySelector('meta[name="description"]');
-      if (descEl) descEl.setAttribute('content', seo.description);
-
-      const ogTitle = document.querySelector('meta[property="og:title"]');
-      if (ogTitle) ogTitle.setAttribute('content', seo.title);
-
-      const ogDesc = document.querySelector('meta[property="og:description"]');
-      if (ogDesc) ogDesc.setAttribute('content', seo.description);
-
-      const ogUrl = document.querySelector('meta[property="og:url"]');
-      if (ogUrl) ogUrl.setAttribute('content', `${baseUrl}/${activeToolId}`);
-
-      let canonicalEl = document.querySelector('link[rel="canonical"]');
-      if (!canonicalEl) {
-        canonicalEl = document.createElement('link');
-        canonicalEl.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalEl);
-      }
-      canonicalEl.setAttribute('href', `${baseUrl}/${activeToolId}`);
-
-      try {
-        // @ts-expect-error Google Analytics gtag
-        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-          // @ts-expect-error Google Analytics gtag
-          window.gtag('event', 'page_view', {
-            page_path: `/${activeToolId}`,
-            page_title: seo.title,
-            page_location: `${baseUrl}/${activeToolId}`,
-          });
-        }
-      } catch {
-        // ignore
-      }
-    } else {
-      document.title = defaultTitle;
-
-      const descEl = document.querySelector('meta[name="description"]');
-      if (descEl) descEl.setAttribute('content', defaultDesc);
-
-      const ogTitle = document.querySelector('meta[property="og:title"]');
-      if (ogTitle) ogTitle.setAttribute('content', defaultTitle);
-
-      const ogDesc = document.querySelector('meta[property="og:description"]');
-      if (ogDesc) ogDesc.setAttribute('content', defaultDesc);
-
-      const ogUrl = document.querySelector('meta[property="og:url"]');
-      if (ogUrl) ogUrl.setAttribute('content', `${baseUrl}/`);
-
-      let canonicalEl = document.querySelector('link[rel="canonical"]');
-      if (!canonicalEl) {
-        canonicalEl = document.createElement('link');
-        canonicalEl.setAttribute('rel', 'canonical');
-        document.head.appendChild(canonicalEl);
-      }
-      canonicalEl.setAttribute('href', `${baseUrl}/`);
-
-      try {
-        // @ts-expect-error Google Analytics gtag
-        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-          // @ts-expect-error Google Analytics gtag
-          window.gtag('event', 'page_view', {
-            page_path: '/',
-            page_title: defaultTitle,
-            page_location: `${baseUrl}/`,
-          });
-        }
-      } catch {
-        // ignore
-      }
+      canonicalPath = `/${pageState.toolId}`;
+      schemaJson = {
+        '@context': 'https://schema.org',
+        '@type': 'WebApplication',
+        name: toolObj ? `${toolObj.title} – PDF Master` : 'PDF Master Tool',
+        url: `${BASE_URL}/${pageState.toolId}`,
+        description,
+        applicationCategory: 'ProductivityApplication',
+        operatingSystem: 'All',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      };
+    } else if (pageState.type === 'not-found') {
+      title = 'Page Not Found (404) – PDF Master';
+      description = 'The requested PDF tool or page could not be found.';
+      is404 = true;
     }
-  }, [activeToolId, isContactPage]);
+
+    // 1. Update Title
+    document.title = title;
+
+    // 2. Meta description
+    const descEl = document.querySelector('meta[name="description"]');
+    if (descEl) descEl.setAttribute('content', description);
+
+    // 3. OpenGraph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', title);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', description);
+
+    const canonicalUrl = `${BASE_URL}${canonicalPath ? canonicalPath : '/'}`;
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', canonicalUrl);
+
+    // 4. Canonical link tag
+    let canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (!canonicalEl) {
+      canonicalEl = document.createElement('link');
+      canonicalEl.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalEl);
+    }
+    canonicalEl.setAttribute('href', canonicalUrl);
+
+    // 5. Robots meta tag for 404 vs indexable
+    let robotsEl = document.querySelector('meta[name="robots"]');
+    if (is404) {
+      if (!robotsEl) {
+        robotsEl = document.createElement('meta');
+        robotsEl.setAttribute('name', 'robots');
+        document.head.appendChild(robotsEl);
+      }
+      robotsEl.setAttribute('content', 'noindex, nofollow');
+    } else if (robotsEl) {
+      robotsEl.setAttribute('content', 'index, follow');
+    }
+
+    // 6. Schema.org structured data update
+    if (schemaJson) {
+      let schemaScript = document.getElementById('schema-structured-data') as HTMLScriptElement | null;
+      if (!schemaScript) {
+        schemaScript = document.createElement('script');
+        schemaScript.id = 'schema-structured-data';
+        schemaScript.type = 'application/ld+json';
+        document.head.appendChild(schemaScript);
+      }
+      schemaScript.textContent = JSON.stringify(schemaJson);
+    }
+
+    // 7. Google Analytics 4 page_view tracking
+    try {
+      // @ts-expect-error Google Analytics gtag
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        // @ts-expect-error Google Analytics gtag
+        window.gtag('event', 'page_view', {
+          page_path: canonicalPath || '/',
+          page_title: title,
+          page_location: canonicalUrl,
+        });
+      }
+    } catch {
+      // ignore
+    }
+  }, [pageState]);
 
   // Keyboard shortcut '/' to search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
         e.key === '/' &&
-        !activeToolId &&
-        !isContactPage &&
+        pageState.type === 'home' &&
         document.activeElement?.tagName !== 'INPUT'
       ) {
         e.preventDefault();
@@ -202,30 +282,34 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeToolId, isContactPage]);
+  }, [pageState]);
 
   const selectTool = (toolId: string) => {
     window.history.pushState({ toolId }, '', `/${toolId}`);
-    setIsContactPage(false);
-    setActiveToolId(toolId);
+    setPageState({ type: 'tool', toolId });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const navigateToContact = () => {
-    window.history.pushState({ page: 'contact' }, '', '/contact');
-    setIsContactPage(true);
-    setActiveToolId(null);
+  const navigateToPage = (page: 'about' | 'privacy' | 'terms' | 'contact') => {
+    const pathMap: Record<string, string> = {
+      about: '/about',
+      privacy: '/privacy-policy',
+      terms: '/terms',
+      contact: '/contact',
+    };
+    const targetPath = pathMap[page] || `/${page}`;
+    window.history.pushState({ page }, '', targetPath);
+    setPageState({ type: page });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const goHome = () => {
     window.history.pushState({}, '', '/');
-    setIsContactPage(false);
-    setActiveToolId(null);
+    setPageState({ type: 'home' });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Filter tools
+  // Filter tools for homepage
   const filteredTools = useMemo(() => {
     return TOOLS_LIST.filter((tool) => {
       const matchesCategory =
@@ -244,8 +328,11 @@ export default function App() {
   }, [selectedCategory, searchQuery]);
 
   const activeTool = useMemo(() => {
-    return TOOLS_LIST.find((t) => t.id === activeToolId) || null;
-  }, [activeToolId]);
+    if (pageState.type === 'tool') {
+      return TOOLS_LIST.find((t) => t.id === pageState.toolId) || null;
+    }
+    return null;
+  }, [pageState]);
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased selection:bg-red-500 selection:text-white">
@@ -253,25 +340,43 @@ export default function App() {
       <Navbar
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
-          if (activeToolId || isContactPage) goHome();
+          if (pageState.type !== 'home') goHome();
         }}
         onSelectTool={selectTool}
         onGoHome={goHome}
         onOpenModal={(modal) => {
-          if (modal === 'contact') {
-            navigateToContact();
-          } else {
-            setActiveModal(modal);
-          }
+          navigateToPage(modal);
         }}
+        onNavigatePage={navigateToPage}
       />
 
       {/* Main Content Area */}
       <main className="flex-1">
-        {isContactPage ? (
+        {pageState.type === 'contact' ? (
           <ContactPage
             onBackToHome={goHome}
-            onOpenPrivacyPolicy={() => setActiveModal('privacy')}
+            onOpenPrivacyPolicy={() => navigateToPage('privacy')}
+          />
+        ) : pageState.type === 'about' ? (
+          <AboutPage
+            onBackToHome={goHome}
+            onSelectTool={selectTool}
+            onNavigateContact={() => navigateToPage('contact')}
+          />
+        ) : pageState.type === 'privacy' ? (
+          <PrivacyPolicyPage
+            onBackToHome={goHome}
+            onNavigateContact={() => navigateToPage('contact')}
+          />
+        ) : pageState.type === 'terms' ? (
+          <TermsPage
+            onBackToHome={goHome}
+            onNavigateContact={() => navigateToPage('contact')}
+          />
+        ) : pageState.type === 'not-found' ? (
+          <NotFoundPage
+            onBackToHome={goHome}
+            onSelectTool={selectTool}
           />
         ) : activeTool ? (
           /* Active Tool Execution Workbench */
@@ -290,7 +395,7 @@ export default function App() {
             {/* Responsive AdSense Placement (Homepage Top) */}
             <AdSenseBanner
               slotId={ADSENSE_CONFIG.slotHomeTop}
-              slotLabel="أعلى الصفحة الرئيسية (Home Top)"
+              slotLabel="Home Top"
               className="my-4"
             />
 
@@ -314,7 +419,7 @@ export default function App() {
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="text-xs font-semibold text-red-600 hover:underline"
+                    className="text-xs font-semibold text-red-600 hover:underline cursor-pointer"
                   >
                     Reset Search
                   </button>
@@ -346,7 +451,7 @@ export default function App() {
                       setSearchQuery('');
                       setSelectedCategory('all');
                     }}
-                    className="mt-4 px-4 py-2 bg-red-600 text-white text-xs font-bold rounded-xl"
+                    className="mt-4 px-4 py-2 bg-red-600 text-white text-xs font-bold rounded-xl cursor-pointer"
                   >
                     View All Tools
                   </button>
@@ -356,7 +461,7 @@ export default function App() {
               {/* Responsive AdSense Placement (Homepage Mid) */}
               <AdSenseBanner
                 slotId={ADSENSE_CONFIG.slotHomeMid}
-                slotLabel="وسط الصفحة الرئيسية (Home Mid)"
+                slotLabel="Home Mid"
                 className="my-8"
               />
 
@@ -364,7 +469,7 @@ export default function App() {
               <section className="mt-14 pt-16 border-t border-slate-200/80">
                 <div className="text-center max-w-2xl mx-auto mb-12">
                   <span className="text-xs font-bold text-red-600 uppercase tracking-wider">
-                    Fast & Accessible
+                    Fast &amp; Accessible
                   </span>
                   <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
                     Why users choose PDF Master
@@ -389,7 +494,7 @@ export default function App() {
                     <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
                       <Zap className="w-6 h-6" />
                     </div>
-                    <h3 className="text-base font-bold text-slate-900">Fast & Streamlined</h3>
+                    <h3 className="text-base font-bold text-slate-900">Fast &amp; Streamlined</h3>
                     <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed">
                       Designed with an intuitive interface to help you complete your document tasks quickly without queue delays or software downloads.
                     </p>
@@ -399,7 +504,7 @@ export default function App() {
                     <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mb-4">
                       <Smartphone className="w-6 h-6" />
                     </div>
-                    <h3 className="text-base font-bold text-slate-900">Mobile & Desktop Ready</h3>
+                    <h3 className="text-base font-bold text-slate-900">Mobile &amp; Desktop Ready</h3>
                     <p className="mt-2 text-xs sm:text-sm text-slate-500 leading-relaxed">
                       Fully responsive layout optimized for smartphones, tablets, laptops, and desktop computers.
                     </p>
@@ -433,29 +538,26 @@ export default function App() {
       <Footer
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
-          if (activeToolId || isContactPage) goHome();
+          if (pageState.type !== 'home') goHome();
         }}
         onSelectTool={selectTool}
         onOpenModal={(modal) => {
-          if (modal === 'contact') {
-            navigateToContact();
-          } else {
-            setActiveModal(modal);
-          }
+          navigateToPage(modal);
         }}
-        onNavigateContact={navigateToContact}
+        onNavigateContact={() => navigateToPage('contact')}
+        onNavigatePage={navigateToPage}
       />
 
       {/* Legal & Informational Modals */}
       <LegalModal
         type={activeModal}
         onClose={() => setActiveModal(null)}
-        onNavigateContact={navigateToContact}
-        onOpenPrivacy={() => setActiveModal('privacy')}
+        onNavigateContact={() => navigateToPage('contact')}
+        onOpenPrivacy={() => navigateToPage('privacy')}
       />
 
       {/* Cookie & Advertising Consent Banner for Google AdSense Compliance */}
-      <CookieConsentBanner onOpenPrivacyPolicy={() => setActiveModal('privacy')} />
+      <CookieConsentBanner onOpenPrivacyPolicy={() => navigateToPage('privacy')} />
     </div>
   );
 }

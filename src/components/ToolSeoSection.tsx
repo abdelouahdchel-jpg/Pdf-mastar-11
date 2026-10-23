@@ -80,11 +80,16 @@ export const ToolSeoSection: React.FC<ToolSeoSectionProps> = ({ tool, onSelectTo
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
             {relatedTools.map((relTool) => (
-              <button
+              <a
                 key={relTool.id}
-                type="button"
-                onClick={() => onSelectTool(relTool.id)}
-                className="group p-4 bg-white border border-slate-200 hover:border-red-400 rounded-2xl text-left shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
+                href={`/${relTool.id}`}
+                onClick={(e) => {
+                  if (!e.metaKey && !e.ctrlKey) {
+                    e.preventDefault();
+                    onSelectTool(relTool.id);
+                  }
+                }}
+                className="group p-4 bg-white border border-slate-200 hover:border-red-400 rounded-2xl text-left shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between no-underline"
               >
                 <div>
                   <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 group-hover:bg-red-600 group-hover:text-white flex items-center justify-center transition-colors mb-2.5">
@@ -101,7 +106,7 @@ export const ToolSeoSection: React.FC<ToolSeoSectionProps> = ({ tool, onSelectTo
                   <span>Open Tool</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </div>
-              </button>
+              </a>
             ))}
           </div>
         </div>
