@@ -10,7 +10,7 @@ interface FooterProps {
   onSelectTool: (toolId: string) => void;
   onOpenModal: (modal: 'about' | 'privacy' | 'terms' | 'contact') => void;
   onNavigateContact?: () => void;
-  onNavigatePage?: (page: 'about' | 'privacy' | 'terms' | 'contact') => void;
+  onNavigatePage?: (page: 'about' | 'privacy' | 'terms' | 'contact' | 'blog') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
@@ -409,6 +409,22 @@ export const Footer: React.FC<FooterProps> = ({
                   className="hover:text-red-600 transition-colors"
                 >
                   Contact Us
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/blog"
+                  onClick={(e) => {
+                    if (!e.metaKey && !e.ctrlKey) {
+                      e.preventDefault();
+                      if (onNavigatePage) {
+                        onNavigatePage('blog');
+                      }
+                    }
+                  }}
+                  className="hover:text-red-600 transition-colors font-semibold text-slate-800"
+                >
+                  Blog &amp; Tutorials
                 </a>
               </li>
             </ul>

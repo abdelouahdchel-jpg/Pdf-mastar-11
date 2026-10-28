@@ -365,6 +365,23 @@ export const TOOLS_SEO_DATA: Record<string, ToolSeoData> = {
     ],
     relatedToolIds: ['jpg-to-pdf', 'png-to-pdf', 'merge-pdf', 'compress-pdf'],
   },
+  'word-to-pdf': {
+    title: 'Word to PDF Online – Convert Word (.docx) to PDF | PDF Master',
+    description: 'Convert Microsoft Word (.docx) documents into clean PDF files in your browser. Fast, free, and 100% private in-browser conversion. Note: Legacy .doc is not supported.',
+    heading: 'Transform modern Word (.docx) documents into fixed-layout, shareable PDF documents.',
+    steps: [
+      { step: 1, title: 'Upload Word (.docx) File', desc: 'Select or drag your .docx file into the converter. Legacy .doc must be saved as .docx first.' },
+      { step: 2, title: 'Parse Document', desc: 'The client-side engine parses paragraphs, headings, and table structures.' },
+      { step: 3, title: 'Download PDF', desc: 'Click "Convert to PDF" and download your clean, printable document instantly.' },
+    ],
+    features: [
+      'Extracts Word document paragraphs, headers, and table contents',
+      'Preserves textual flow and generates clean A4 pagination',
+      '100% in-browser processing with zero server uploads',
+      'Note: Legacy binary .doc (Word 97-2003) is not supported',
+    ],
+    relatedToolIds: ['pdf-to-word', 'txt-to-pdf', 'pdf-to-text', 'compress-pdf'],
+  },
   'txt-to-pdf': {
     title: 'TXT to PDF Online – Convert Text Files to PDF | PDF Master',
     description: 'Convert plain text files (.txt) into cleanly formatted and paginated PDF documents with custom typography. 100% private and free.',

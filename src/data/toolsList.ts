@@ -280,6 +280,17 @@ export const TOOLS_LIST: PDFTool[] = [
     acceptedFileTypesLabel: 'Images (JPG, PNG, WEBP, GIF, SVG)',
   },
   {
+    id: 'word-to-pdf',
+    title: 'Word to PDF (.docx)',
+    category: 'convert-from',
+    description: 'Convert Microsoft Word (.docx) documents into shareable PDF documents entirely in your browser. Legacy .doc is not supported; please save as .docx first.',
+    badge: 'Popular',
+    icon: 'FileText',
+    accept: '.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    multiple: false,
+    acceptedFileTypesLabel: 'Word document (.docx)',
+  },
+  {
     id: 'txt-to-pdf',
     title: 'TXT to PDF',
     category: 'convert-from',

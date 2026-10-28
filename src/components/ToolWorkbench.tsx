@@ -15,6 +15,7 @@ import {
   FileText,
   Eye,
   Loader2,
+  Info,
 } from 'lucide-react';
 import { PDFTool, PageThumbnail, ProcessProgress, ProcessResult } from '../types/tools';
 import { FileDropzone } from './FileDropzone';
@@ -50,6 +51,7 @@ import {
   comparePdfs,
 } from '../services/pdfService';
 import {
+  convertWordToPdf,
   convertPdfToWord,
   convertPdfToExcel,
   convertPdfToHtml,
@@ -441,6 +443,13 @@ export const ToolWorkbench: React.FC<ToolWorkbenchProps> = ({ tool, onBack, onSe
           break;
         }
 
+        case 'word-to-pdf': {
+          const wordRes = await convertWordToPdf(files[0], setProgress);
+          finalBlob = wordRes.blob;
+          finalName = wordRes.fileName;
+          break;
+        }
+
         case 'txt-to-pdf':
         case 'markdown-to-pdf':
         case 'html-to-pdf': {
@@ -768,6 +777,20 @@ export const ToolWorkbench: React.FC<ToolWorkbenchProps> = ({ tool, onBack, onSe
           {/* File Picker Zone */}
           {files.length === 0 ? (
             <div>
+              {tool.id === 'word-to-pdf' && (
+                <div className="mb-6 p-4 sm:p-5 bg-blue-50/70 border border-blue-200 rounded-2xl text-xs sm:text-sm text-blue-950 space-y-2">
+                  <div className="flex items-center gap-2 font-bold text-blue-900">
+                    <Info className="w-4 h-4 text-blue-600" />
+                    <span>Word (.docx) to PDF Conversion Details &amp; Capabilities</span>
+                  </div>
+                  <ul className="list-disc pl-5 space-y-1.5 text-blue-800 text-xs leading-relaxed">
+                    <li><strong>Supported Elements:</strong> Preserves Arabic text with native right-to-left (RTL) cursive shaping, English typography, document headings, styled tables (borders &amp; cell formatting), and embedded raster images.</li>
+                    <li><strong>Supported Formats:</strong> Modern OpenXML Word documents (<code className="bg-blue-100 px-1 py-0.5 rounded font-mono">.docx</code>) only. Legacy binary <code className="bg-blue-100 px-1 py-0.5 rounded font-mono">.doc</code> is not supported; save as <code className="bg-blue-100 px-1 py-0.5 rounded font-mono">.docx</code> before converting.</li>
+                    <li><strong>Image-Based Output (Non-Selectable Text):</strong> To preserve 100% of complex Arabic cursive glyphs, tables, and images locally without server costs, pages are captured as high-resolution visual layers. The resulting PDF cannot be text-selected, copied, or searched with a text cursor. Full vector text preservation with native Arabic shaping requires desktop Word or server-side conversion tools.</li>
+                  </ul>
+                </div>
+              )}
+
               <FileDropzone
                 accept={tool.accept}
                 multiple={tool.multiple}

@@ -729,7 +729,8 @@ export async function textToPdf(
   let y = pageHeight - margin;
 
   if (options.title) {
-    currentPage.drawText(options.title, {
+    const safeTitle = options.title.replace(/[^\x20-\x7E\xA0-\xFF]/g, '?');
+    currentPage.drawText(safeTitle, {
       x: margin,
       y: y - 16,
       size: 18,
@@ -742,8 +743,11 @@ export async function textToPdf(
   const lines = text.split('\n');
 
   for (const rawLine of lines) {
+    // Sanitize non-WinAnsi characters (e.g. Arabic, Asian characters) to prevent pdf-lib WinAnsi encode crashes
+    const safeLine = rawLine.replace(/[^\x20-\x7E\xA0-\xFF]/g, '?');
+
     // Word wrap
-    const words = rawLine.split(' ');
+    const words = safeLine.split(' ');
     let currentLine = '';
 
     for (const word of words) {
