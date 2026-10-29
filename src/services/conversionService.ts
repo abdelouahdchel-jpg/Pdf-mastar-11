@@ -1,7 +1,25 @@
 import { renderAsync } from 'docx-preview';
 import html2canvas from 'html2canvas';
 import { PDFDocument } from 'pdf-lib';
+import * as pdfjsLib from 'pdfjs-dist';
+import {
+  Document,
+  Paragraph,
+  TextRun,
+  Table,
+  TableRow,
+  TableCell,
+  HeadingLevel,
+  Packer,
+  BorderStyle,
+  WidthType,
+  PageBreak,
+} from 'docx';
 import { extractTextFromPdf } from './pdfService';
+
+if (typeof window !== 'undefined' && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+}
 
 /**
  * Generate high-fidelity PDF from Word (.docx) document
@@ -129,56 +147,283 @@ export async function convertWordToPdf(
 }
 
 /**
- * Generate Word compatible .docx / .doc file from PDF text content
+ * Convert PDF into a genuine, valid Microsoft Word (.docx) document
+ * Preserves paragraph breaks, headings, detected tables, and page breaks.
+ * Rejects scanned / image-only PDFs with a clear message explaining that OCR is required.
  */
 export async function convertPdfToWord(
   file: File,
   onProgress?: (progress: { stage: string; percent: number }) => void
 ): Promise<{ blob: Blob; fileName: string }> {
-  if (onProgress) onProgress({ stage: 'Extracting PDF structure and paragraphs...', percent: 40 });
-  const { text } = await extractTextFromPdf(file);
+  if (onProgress) onProgress({ stage: 'Reading PDF document structure...', percent: 15 });
 
-  if (onProgress) onProgress({ stage: 'Formatting Word document structure...', percent: 80 });
+  const bytes = await file.arrayBuffer();
+  const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(bytes) });
+  const pdf = await loadingTask.promise;
+  const numPages = pdf.numPages;
 
-  // Convert plain text into rich Word document XML / HTML compatible format
-  const paragraphs = text
-    .split('\n')
-    .map((line) => {
-      const trimmed = line.trim();
-      if (!trimmed) return '<p style="margin: 0 0 12pt 0;">&nbsp;</p>';
-      if (trimmed.startsWith('--- Page')) {
-        return `<div style="page-break-before: always; border-bottom: 2px solid #dc2626; margin: 24pt 0 12pt 0; padding-bottom: 4pt; font-weight: bold; color: #dc2626; font-size: 13pt;">${trimmed}</div>`;
+  let totalChars = 0;
+  interface PageLine {
+    y: number;
+    height: number;
+    items: { str: string; x: number; y: number; width: number; height: number }[];
+  }
+  const pageBlocks: PageLine[][] = [];
+
+  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+    if (onProgress) {
+      onProgress({
+        stage: `Analyzing text & layout (Page ${pageNum}/${numPages})...`,
+        percent: Math.round(15 + (pageNum / numPages) * 35),
+      });
+    }
+
+    const page = await pdf.getPage(pageNum);
+    const textContent = await page.getTextContent();
+    const items = textContent.items as any[];
+
+    for (const item of items) {
+      if (item.str) totalChars += item.str.trim().length;
+    }
+
+    // Sort items: descending by Y, ascending by X
+    const sortedItems = [...items].sort((a, b) => {
+      const yA = a.transform ? a.transform[5] : 0;
+      const yB = b.transform ? b.transform[5] : 0;
+      if (Math.abs(yA - yB) > 3.5) {
+        return yB - yA;
       }
-      return `<p style="margin: 0 0 10pt 0; line-height: 1.5; font-size: 11pt; font-family: 'Calibri', Arial, sans-serif; color: #222222;">${escapeHtml(trimmed)}</p>`;
-    })
-    .join('');
+      const xA = a.transform ? a.transform[4] : 0;
+      const xB = b.transform ? b.transform[4] : 0;
+      return xA - xB;
+    });
 
-  const wordHtmlContent = `
-    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-    <head>
-      <meta charset='utf-8'>
-      <title>${escapeHtml(file.name)}</title>
-      <style>
-        @page Section1 {size: 595.3pt 841.9pt; margin: 70.85pt 70.85pt 70.85pt 70.85pt; mso-header-margin: 35.4pt; mso-footer-margin: 35.4pt;}
-        div.Section1 {page: Section1;}
-        body { font-family: Calibri, 'Segoe UI', Arial, sans-serif; font-size: 11pt; color: #333333; line-height: 1.4; }
-      </style>
-    </head>
-    <body>
-      <div class="Section1">
-        <h1 style="color: #1e293b; font-size: 20pt; margin-bottom: 16pt;">${escapeHtml(file.name.replace(/\.[^/.]+$/, ''))}</h1>
-        ${paragraphs}
-      </div>
-    </body>
-    </html>
-  `;
+    const pageLines: PageLine[] = [];
+    for (const item of sortedItems) {
+      if (!item.str || !item.str.trim()) continue;
+      const x = item.transform ? item.transform[4] : 0;
+      const y = item.transform ? item.transform[5] : 0;
+      const height = item.height || Math.abs(item.transform ? item.transform[0] : 10);
+      const width = item.width || 0;
 
-  const blob = new Blob(['\ufeff', wordHtmlContent], {
-    type: 'application/msword;charset=utf-8',
+      const existingLine = pageLines.find((l) => Math.abs(l.y - y) <= 3.5);
+      if (existingLine) {
+        existingLine.items.push({ str: item.str, x, y, width, height });
+      } else {
+        pageLines.push({
+          y,
+          height,
+          items: [{ str: item.str, x, y, width, height }],
+        });
+      }
+    }
+
+    pageLines.sort((a, b) => b.y - a.y);
+    pageBlocks.push(pageLines);
+  }
+
+  // Scanned / Image-only PDF detection
+  if (totalChars < 15) {
+    throw new Error(
+      'No selectable digital text was found in this PDF. This document appears to be a scanned paper copy or image-based PDF. Please use the OCR PDF tool to recognize text from scanned images before converting to Word.'
+    );
+  }
+
+  if (onProgress) onProgress({ stage: 'Constructing genuine Word (.docx) document...', percent: 65 });
+
+  // Compute median body font size
+  const allHeights: number[] = [];
+  for (const pLines of pageBlocks) {
+    for (const l of pLines) {
+      for (const it of l.items) {
+        if (it.height > 0) allHeights.push(it.height);
+      }
+    }
+  }
+  allHeights.sort((a, b) => a - b);
+  const medianHeight = allHeights.length > 0 ? allHeights[Math.floor(allHeights.length / 2)] : 11;
+
+  const docChildren: any[] = [];
+
+  for (let pIdx = 0; pIdx < pageBlocks.length; pIdx++) {
+    // Insert page break between pages
+    if (pIdx > 0) {
+      docChildren.push(new Paragraph({ children: [new PageBreak()] }));
+    }
+
+    const lines = pageBlocks[pIdx];
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // Segment line into columns if wide gaps exist (gap > 22 pt)
+      const columnSegments: string[] = [];
+      let currentSeg = '';
+      for (let k = 0; k < line.items.length; k++) {
+        const item = line.items[k];
+        if (k > 0) {
+          const prev = line.items[k - 1];
+          const gap = item.x - (prev.x + prev.width);
+          if (gap > 22) {
+            columnSegments.push(currentSeg.trim());
+            currentSeg = item.str;
+            continue;
+          }
+        }
+        currentSeg += (currentSeg ? ' ' : '') + item.str;
+      }
+      if (currentSeg.trim()) columnSegments.push(currentSeg.trim());
+
+      // Table Detection: check if consecutive lines form a tabular grid
+      if (columnSegments.length >= 2) {
+        const tableCandidateRows: string[][] = [];
+        let lookAhead = i;
+
+        while (lookAhead < lines.length) {
+          const checkLine = lines[lookAhead];
+          const cols: string[] = [];
+          let seg = '';
+          for (let k = 0; k < checkLine.items.length; k++) {
+            const it = checkLine.items[k];
+            if (k > 0) {
+              const pr = checkLine.items[k - 1];
+              const g = it.x - (pr.x + pr.width);
+              if (g > 22) {
+                cols.push(seg.trim());
+                seg = it.str;
+                continue;
+              }
+            }
+            seg += (seg ? ' ' : '') + it.str;
+          }
+          if (seg.trim()) cols.push(seg.trim());
+
+          if (cols.length >= 2) {
+            tableCandidateRows.push(cols);
+            lookAhead++;
+          } else {
+            break;
+          }
+        }
+
+        // If at least 2 consecutive multi-column lines exist, build an actual Word Table
+        if (tableCandidateRows.length >= 2) {
+          const maxCols = Math.max(...tableCandidateRows.map((r) => r.length));
+          const docxRows = tableCandidateRows.map((rowCells, rIndex) => {
+            const cells: TableCell[] = [];
+            for (let c = 0; c < maxCols; c++) {
+              const cellText = rowCells[c] || '';
+              cells.push(
+                new TableCell({
+                  children: [
+                    new Paragraph({
+                      children: [
+                        new TextRun({
+                          text: cellText,
+                          bold: rIndex === 0,
+                          size: 20, // 10 pt
+                        }),
+                      ],
+                    }),
+                  ],
+                  borders: {
+                    top: { style: BorderStyle.SINGLE, size: 1, color: 'D1D5DB' },
+                    bottom: { style: BorderStyle.SINGLE, size: 1, color: 'D1D5DB' },
+                    left: { style: BorderStyle.SINGLE, size: 1, color: 'D1D5DB' },
+                    right: { style: BorderStyle.SINGLE, size: 1, color: 'D1D5DB' },
+                  },
+                })
+              );
+            }
+            return new TableRow({ children: cells });
+          });
+
+          docChildren.push(
+            new Table({
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              rows: docxRows,
+            })
+          );
+          docChildren.push(new Paragraph({ text: '', spacing: { after: 120 } }));
+          i = lookAhead;
+          continue;
+        }
+      }
+
+      // Heading or Paragraph
+      const lineText = line.items.map((it) => it.str).join(' ').trim();
+      const maxItemHeight = Math.max(...line.items.map((it) => it.height));
+      const isHeading = maxItemHeight >= medianHeight * 1.28 && lineText.length < 120;
+
+      if (isHeading) {
+        docChildren.push(
+          new Paragraph({
+            text: lineText,
+            heading: maxItemHeight >= medianHeight * 1.5 ? HeadingLevel.HEADING_1 : HeadingLevel.HEADING_2,
+            spacing: { before: 240, after: 120 },
+          })
+        );
+        i++;
+      } else {
+        // Collect paragraph lines until a significant vertical gap or heading
+        const paraLines: string[] = [lineText];
+        let lastY = line.y;
+        i++;
+
+        while (i < lines.length) {
+          const nextLine = lines[i];
+          const nextText = nextLine.items.map((it) => it.str).join(' ').trim();
+          const nextHeight = Math.max(...nextLine.items.map((it) => it.height));
+          const nextIsHeading = nextHeight >= medianHeight * 1.28 && nextText.length < 120;
+          const vGap = lastY - nextLine.y;
+
+          if (nextIsHeading || vGap > medianHeight * 2.2) {
+            break;
+          }
+
+          paraLines.push(nextText);
+          lastY = nextLine.y;
+          i++;
+        }
+
+        docChildren.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: paraLines.join(' '),
+                size: Math.round(medianHeight * 2), // font size in half-points
+              }),
+            ],
+            spacing: { after: 140 },
+          })
+        );
+      }
+    }
+  }
+
+  if (onProgress) onProgress({ stage: 'Serializing OpenXML package (.docx)...', percent: 90 });
+
+  const doc = new Document({
+    sections: [
+      {
+        properties: {
+          page: {
+            margin: { top: 720, right: 720, bottom: 720, left: 720 },
+          },
+        },
+        children: docChildren,
+      },
+    ],
   });
-  const baseName = file.name.replace(/\.[^/.]+$/, '');
 
-  return { blob, fileName: `${baseName}_converted.doc` };
+  const rawBlob = await Packer.toBlob(doc);
+  const docxBlob = new Blob([await rawBlob.arrayBuffer()], {
+    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  });
+
+  const baseName = file.name.replace(/\.[^/.]+$/, '');
+  return { blob: docxBlob, fileName: `${baseName}_converted.docx` };
 }
 
 /**

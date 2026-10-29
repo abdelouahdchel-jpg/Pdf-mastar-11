@@ -777,6 +777,21 @@ export const ToolWorkbench: React.FC<ToolWorkbenchProps> = ({ tool, onBack, onSe
           {/* File Picker Zone */}
           {files.length === 0 ? (
             <div>
+              {tool.id === 'pdf-to-word' && (
+                <div className="mb-6 p-4 sm:p-5 bg-blue-50/70 border border-blue-200 rounded-2xl text-xs sm:text-sm text-blue-950 space-y-2">
+                  <div className="flex items-center gap-2 font-bold text-blue-900">
+                    <Info className="w-4 h-4 text-blue-600" />
+                    <span>PDF to Word (.docx) Conversion Capabilities &amp; Limitations</span>
+                  </div>
+                  <ul className="list-disc pl-5 space-y-1.5 text-blue-800 text-xs leading-relaxed">
+                    <li><strong>Output Format:</strong> Generates genuine Microsoft Word OpenXML (<code className="bg-blue-100 px-1 py-0.5 rounded font-mono">.docx</code>) documents with standard OpenXML packaging. Never saves HTML with a false extension.</li>
+                    <li><strong>Layout &amp; Structure:</strong> Reconstructs paragraph boundaries, heading levels (H1/H2 based on font hierarchy), line breaks, and multi-column tabular data as native Word tables.</li>
+                    <li><strong>100% Private &amp; Client-Side:</strong> All conversion takes place locally in your web browser. No files are uploaded to external servers or third-party paid APIs.</li>
+                    <li><strong>Scanned Document Notice:</strong> Requires selectable digital text streams. If your PDF is a scanned photocopy or flat image with no selectable text, please use the <strong>OCR PDF</strong> tool first to extract text.</li>
+                  </ul>
+                </div>
+              )}
+
               {tool.id === 'word-to-pdf' && (
                 <div className="mb-6 p-4 sm:p-5 bg-blue-50/70 border border-blue-200 rounded-2xl text-xs sm:text-sm text-blue-950 space-y-2">
                   <div className="flex items-center gap-2 font-bold text-blue-900">
@@ -1321,13 +1336,16 @@ export const ToolWorkbench: React.FC<ToolWorkbenchProps> = ({ tool, onBack, onSe
                 {tool.id === 'pdf-to-word' && (
                   <div className="space-y-3">
                     <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-600 space-y-2">
-                      <p className="font-bold text-slate-800">Word Export Details:</p>
+                      <p className="font-bold text-slate-800">Word Document (.docx) Export Details:</p>
                       <p>
-                        Converts extracted text structure and paragraphs into an editable Word document format (`.doc`), readable by Microsoft Word, Apple Pages, and Google Docs.
+                        Generates a genuine OpenXML Microsoft Word document (<code className="font-mono bg-slate-100 px-1 py-0.5 rounded text-slate-700">.docx</code>) compatible with Microsoft Word, LibreOffice Writer, Google Docs, and Apple Pages.
                       </p>
-                      <p className="text-slate-500">
-                        <em>Formatting Note:</em> Text paragraphs and page breaks are preserved; complex layered graphics or overlapping columns may require re-alignment in Word.
-                      </p>
+                      <ul className="list-disc pl-5 space-y-1 text-slate-500 text-[11px]">
+                        <li>Paragraph breaks and natural line flows are preserved based on vertical positioning.</li>
+                        <li>Headings (H1/H2) are automatically styled from larger text elements.</li>
+                        <li>Multi-column lines are detected and rendered as formatted Word tables.</li>
+                        <li>Scanned PDFs with flat raster images cannot be parsed as text; use the <strong>OCR PDF</strong> tool first for scanned documents.</li>
+                      </ul>
                     </div>
                   </div>
                 )}

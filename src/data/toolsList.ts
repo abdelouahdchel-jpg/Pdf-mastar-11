@@ -218,7 +218,7 @@ export const TOOLS_LIST: PDFTool[] = [
     id: 'pdf-to-word',
     title: 'PDF to Word (.docx)',
     category: 'convert-to',
-    description: 'Export PDF text and paragraphs into an editable Word document format. Preserves textual flow; complex graphical layout may vary.',
+    description: 'Convert PDF documents into genuine, editable Word (.docx) documents with structured paragraphs, headings, and detected tables.',
     badge: 'Popular',
     icon: 'FileSpreadsheet',
     accept: '.pdf,application/pdf',
